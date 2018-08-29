@@ -10,7 +10,7 @@
  */
 
 
-namespace Konekt\PdfInvoice\Tests;
+namespace FaberTech\PdfInvoice\Tests;
 
 
 use PHPUnit\Framework\TestCase;
