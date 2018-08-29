@@ -9,7 +9,7 @@
  *
  */
 
-namespace Konekt\PdfInvoice;
+namespace FaberTech\PdfInvoice;
 
 use FPDF;
 
