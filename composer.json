@@ -21,11 +21,11 @@
         "phpunit/phpunit": "~5.0"
     },
     "autoload": {
-        "psr-4": { "Konekt\\PdfInvoice\\": "src/" }
+        "psr-4": { "FaberTech\\PdfInvoice\\": "src/" }
     },
     "autoload-dev": {
         "psr-4": {
-            "Konekt\\PdfInvoice\\Tests\\": "tests/"
+            "FaberTech\\PdfInvoice\\Tests\\": "tests/"
         }
     },
     "extra": {
