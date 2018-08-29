@@ -1,5 +1,5 @@
 {
-    "name": "konekt/pdf-invoice",
+    "name": "FaberTech/pdf-invoice",
     "description": "Library to generate PDF invoices",
     "type": "library",
     "license": "GPL-2.0-or-later",
