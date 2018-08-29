@@ -9,7 +9,7 @@
   $lang['qty'] 			= 'Hours';
   $lang['price'] 		= 'Price';
   $lang['discount'] 	= 'Discount';
-  $lang['vat'] 			= 'Vat';
+  $lang['vat'] 			= 'Tax';
   $lang['total'] 		= 'Total';
   $lang['page'] 		= 'Page';
   $lang['page_of'] 		= 'of';

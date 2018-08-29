@@ -227,7 +227,7 @@ class InvoicePrinter extends FPDF
     public function addItem($item, $description = "", $quantity, $vat, $price, $discount = 0, $total)
     {
         $p['item']        = $item;
-        $p['description'] = $this->br2nl($description);
+        $p['description'] = is_array($description) ? $description : $this->br2nl($description);
 
         if ($vat !== false) {
             $p['vat'] = $vat;
@@ -454,16 +454,27 @@ class InvoicePrinter extends FPDF
         $width_other = ($this->document['w'] - $this->margins['l'] - $this->margins['r'] - $this->firstColumnWidth - ($this->columns * $this->columnSpacing)) / ($this->columns - 1);
         $cellHeight  = 8;
         $bgcolor     = (1 - $this->columnOpacity) * 255;
+        $colWidth = $this->firstColumnWidth;
         if ($this->items) {
             foreach ($this->items as $item) {
                 if ($item['description']) {
+                    $colWidth = $this->firstColumnWidth / count(max(1, $item['description'][0]));
                     //Precalculate height
                     $calculateHeight = new self;
                     $calculateHeight->addPage();
                     $calculateHeight->setXY(0, 0);
                     $calculateHeight->SetFont($this->font, '', 7);
-                    $calculateHeight->MultiCell($this->firstColumnWidth, 3,
-                        iconv("UTF-8", "ISO-8859-1", $item['description']), 0, 'L', 1);
+                    if(!is_array($item['description'])) {
+                        $calculateHeight->MultiCell($this->firstColumnWidth, 3, iconv("UTF-8", "ISO-8859-1", $item['description']), 0, 'L', 1);
+                    } else {
+                        foreach ($item['description'] as $row) {
+                            foreach ($row as $col) {
+                                $calculateHeight->Cell($colWidth, 6, $col, 0, 0, null, true);
+                            }
+                            $calculateHeight->Ln();
+                            $calculateHeight->SetX($x);
+                        }
+                    }
                     $descriptionHeight = $calculateHeight->getY() + $cellHeight + 2;
                     $pageHeight        = $this->document['h'] - $this->GetY() - $this->margins['t'] - $this->margins['t'];
                     if ($pageHeight < 35) {
@@ -484,8 +495,18 @@ class InvoicePrinter extends FPDF
                     $this->SetTextColor(120, 120, 120);
                     $this->SetXY($x, $this->GetY() + 8);
                     $this->SetFont($this->font, '', 7);
-                    $this->MultiCell($this->firstColumnWidth, 3, iconv("UTF-8", "ISO-8859-1", $item['description']), 0,
-                        'L', 1);
+                    if(!is_array($item['description'])) {
+                        $this->MultiCell($this->firstColumnWidth, 3, iconv("UTF-8", "ISO-8859-1", $item['description']), 0, 'L', 1);
+                    } else {
+                        // Data
+                        foreach ($item['description'] as $row) {
+                            foreach ($row as $col) {
+                                $this->Cell($colWidth, 6, $col, 0, 0, null, true);
+                            }
+                            $this->Ln();
+                            $this->SetX($x);
+                        }
+                    }
                     //Calculate Height
                     $newY    = $this->GetY();
                     $cHeight = $newY - $resetY + 2;
