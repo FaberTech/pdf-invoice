@@ -1,12 +1,12 @@
 <?php
-  $lang['number']		= 'Reference';
-  $lang['date'] 		= 'Billing date';
-  $lang['time']			= 'Billing time';
-  $lang['due'] 			= 'Due date';
+  $lang['number']		= 'Invoice #';
+  $lang['date'] 		= 'Invoice Date';
+  $lang['time']			= 'Invoice Time';
+  $lang['due'] 			= 'Payment Due';
   $lang['to'] 			= 'Billing to';
   $lang['from'] 		= 'Billing from';
-  $lang['product'] 		= 'Product';
-  $lang['qty'] 			= 'Qty';
+  $lang['product'] 		= 'Services';
+  $lang['qty'] 			= 'Hours';
   $lang['price'] 		= 'Price';
   $lang['discount'] 	= 'Discount';
   $lang['vat'] 			= 'Vat';
