@@ -457,6 +457,7 @@ class InvoicePrinter extends FPDF
         $colWidth = $this->firstColumnWidth;
         if ($this->items) {
             foreach ($this->items as $item) {
+                $x = $this->GetX();
                 if ($item['description']) {
                     $colWidth = $this->firstColumnWidth / count(max(1, $item['description'][0]));
                     //Precalculate height
