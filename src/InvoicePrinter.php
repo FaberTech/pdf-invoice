@@ -465,10 +465,11 @@ class InvoicePrinter extends FPDF
                     $calculateHeight = new self;
                     $calculateHeight->addPage();
                     $calculateHeight->setXY(0, 0);
-                    $calculateHeight->SetFont($this->font, '', 7);
                     if(!is_array($item['description'])) {
+                        $calculateHeight->SetFont($this->font, '', 7);
                         $calculateHeight->MultiCell($this->firstColumnWidth, 3, iconv("UTF-8", "ISO-8859-1", $item['description']), 0, 'L', 1);
                     } else {
+                        $calculateHeight->SetFont($this->font, '', 6);
                         foreach ($item['description'] as $row) {
                             foreach ($row as $col) {
                                 $calculateHeight->Cell($colWidth, 6, $col, 0, 0, null, true);
@@ -498,10 +499,11 @@ class InvoicePrinter extends FPDF
                     $resetY = $this->GetY();
                     $this->SetTextColor(120, 120, 120);
                     $this->SetXY($x, $this->GetY() + 8);
-                    $this->SetFont($this->font, '', 7);
                     if(!is_array($item['description'])) {
+                        $this->SetFont($this->font, '', 7);
                         $this->MultiCell($this->firstColumnWidth, 3, iconv("UTF-8", "ISO-8859-1", $item['description']), 0, 'L', 1);
                     } else {
+                        $this->SetFont($this->font, '', 6);
                         // Data
                         foreach ($item['description'] as $row) {
                             foreach ($row as $col) {
