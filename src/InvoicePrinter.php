@@ -471,8 +471,13 @@ class InvoicePrinter extends FPDF
                     } else {
                         $calculateHeight->SetFont($this->font, '', 6);
                         foreach ($item['description'] as $row) {
-                            foreach ($row as $col) {
-                                $calculateHeight->Cell($colWidth, 6, $col, 0, 0, null, true);
+                            foreach ($row as $idx => $col) {
+                                // Make 3rd row longer when 3 cols
+                                $colWidthMultiplier = 1;
+                                if(count($row) == 3) {
+                                    $colWidthMultiplier = $idx == 2 ? 1.5 : 0.75;
+                                }
+                                $calculateHeight->Cell($colWidth * $colWidthMultiplier, 6, $col, 0, 0, null, true);
                             }
                             // Add spacer (=2) to left side of table
                             $calculateHeight->Cell(2, 6, '', 0, 0, null, true);
@@ -506,8 +511,13 @@ class InvoicePrinter extends FPDF
                         $this->SetFont($this->font, '', 6);
                         // Data
                         foreach ($item['description'] as $row) {
-                            foreach ($row as $col) {
-                                $this->Cell($colWidth, 6, $col, 0, 0, null, true);
+                            foreach ($row as $idx => $col) {
+                                // Make 3rd row longer when 3 cols
+                                $colWidthMultiplier = 1;
+                                if(count($row) == 3) {
+                                    $colWidthMultiplier = $idx == 2 ? 1.5 : 0.75;
+                                }
+                                $this->Cell($colWidth * $colWidthMultiplier, 6, $col, 0, 0, null, true);
                             }
                             // Add spacer (=2) to left side of table
                             $this->Cell(2, 6, '', 0, 0, null, true);
