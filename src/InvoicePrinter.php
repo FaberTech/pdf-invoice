@@ -507,6 +507,8 @@ class InvoicePrinter extends FPDF
                             foreach ($row as $col) {
                                 $this->Cell($colWidth, 6, $col, 0, 0, null, true);
                             }
+                            // Add spacer (=2) to left side of table
+                            $this->Cell(2, 6, '', 0, 0, null, true);
                             $this->Ln();
                             $this->SetX($x);
                         }
