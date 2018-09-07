@@ -34,7 +34,7 @@ might use it for payment or shipping information or any other content needed.
 ## Installation
 
 ```bash
-composer require konekt/pdf-invoice
+composer require FaberTech/pdf-invoice
 ```
 
 ## Examples
@@ -55,7 +55,7 @@ contain 2 products and a box on the bottom with VAT and total price. Then we add
 right before the output.
 
 ```php
-use Konekt\PdfInvoice\InvoicePrinter;
+use FaberTech\PdfInvoice\InvoicePrinter;
 
   $invoice = new InvoicePrinter();
   
@@ -96,7 +96,7 @@ use Konekt\PdfInvoice\InvoicePrinter;
 ### Create Instances
 
 ```php
-use Konekt\PdfInvoice\InvoicePrinter;
+use FaberTech\PdfInvoice\InvoicePrinter;
 
 // Default Param: Size: A4, Currency: $, Language: en
 $invoice = new InvoicePrinter($size, $currency, $language); 
