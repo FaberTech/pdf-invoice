@@ -7,8 +7,8 @@
   $lang['from'] 		= 'Billing from';
   $lang['product'] 		= 'Services';
   $lang['qty'] 			= 'Hours';
-  $lang['price'] 		= 'Price';
-  $lang['price_ot'] 	= 'OT Price';
+  $lang['price'] 		= 'Rate';
+  $lang['price_ot'] 	= 'OT Rate';
   $lang['quantity_ot'] 	= 'OT Hours';
   $lang['total'] 		= 'Total';
   $lang['page'] 		= 'Page';
