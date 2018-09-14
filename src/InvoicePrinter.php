@@ -224,32 +224,28 @@ class InvoicePrinter extends FPDF
         $this->flipflop = true;
     }
 
-    public function addItem($item, $description = "", $quantity, $vat, $price, $discount = 0, $total)
+    public function addItem($item, $description = "", $quantity, $quantity_ot, $price, $price_ot = 0, $total)
     {
         $p['item']        = $item;
         $p['description'] = is_array($description) ? $description : $this->br2nl($description);
 
-        if ($vat !== false) {
-            $p['vat'] = $vat;
-            if (is_numeric($vat)) {
-                $p['vat'] = $this->currency . ' ' . number_format($vat, 2, $this->referenceformat[0],
-                        $this->referenceformat[1]);
-            }
-            $this->vatField = true;
+        if ($quantity_ot !== false) {
+            $p['quantity_ot'] = $quantity_ot;
+            $this->otQuantityField = true;
             $this->columns  = 5;
         }
         $p['quantity'] = $quantity;
         $p['price']    = $price;
         $p['total']    = $total;
 
-        if ($discount !== false) {
+        if ($price_ot !== false) {
             $this->firstColumnWidth = 58;
-            $p['discount']          = $discount;
-            if (is_numeric($discount)) {
-                $p['discount'] = $this->currency . ' ' . number_format($discount, 2, $this->referenceformat[0],
+            $p['price_ot']          = $price_ot;
+            if (is_numeric($price_ot)) {
+                $p['price_ot'] = $this->currency . ' ' . number_format($price_ot, 2, $this->referenceformat[0],
                         $this->referenceformat[1]);
             }
-            $this->discountField = true;
+            $this->otPriceField = true;
             $this->columns       = 6;
         }
         $this->items[] = $p;
@@ -425,16 +421,16 @@ class InvoicePrinter extends FPDF
                 0, 0, 'L', 0);
             $this->Cell($this->columnSpacing, 10, '', 0, 0, 'L', 0);
             $this->Cell($width_other, 10, iconv("UTF-8", "ISO-8859-1", mb_strtoupper($this->lang['qty'], 'UTF-8')), 0, 0, 'C', 0);
-            if (isset($this->vatField)) {
-                $this->Cell($this->columnSpacing, 10, '', 0, 0, 'L', 0);
-                $this->Cell($width_other, 10, iconv("UTF-8", "ISO-8859-1", mb_strtoupper($this->lang['vat'], 'UTF-8')), 0, 0, 'C',
-                    0);
-            }
             $this->Cell($this->columnSpacing, 10, '', 0, 0, 'L', 0);
             $this->Cell($width_other, 10, iconv("UTF-8", "ISO-8859-1", mb_strtoupper($this->lang['price'], 'UTF-8')), 0, 0, 'C', 0);
-            if (isset($this->discountField)) {
+            if (isset($this->otQuantityField)) {
                 $this->Cell($this->columnSpacing, 10, '', 0, 0, 'L', 0);
-                $this->Cell($width_other, 10, iconv("UTF-8", "ISO-8859-1", mb_strtoupper($this->lang['discount'], 'UTF-8')), 0, 0,
+                $this->Cell($width_other, 10, iconv("UTF-8", "ISO-8859-1", mb_strtoupper($this->lang['quantity_ot'], 'UTF-8')), 0, 0, 'C',
+                    0);
+            }
+            if (isset($this->otPriceField)) {
+                $this->Cell($this->columnSpacing, 10, '', 0, 0, 'L', 0);
+                $this->Cell($width_other, 10, iconv("UTF-8", "ISO-8859-1", mb_strtoupper($this->lang['price_ot'], 'UTF-8')), 0, 0,
                     'C', 0);
             }
             $this->Cell($this->columnSpacing, 10, '', 0, 0, 'L', 0);
@@ -541,23 +537,23 @@ class InvoicePrinter extends FPDF
                 $this->Cell($this->columnSpacing, $cHeight, '', 0, 0, 'L', 0);
                 $this->Cell($width_other, $cHeight, $item['quantity'], 0, 0, 'C', 1);
                 $this->Cell($this->columnSpacing, $cHeight, '', 0, 0, 'L', 0);
-                if (isset($this->vatField)) {
+                $this->Cell($this->columnSpacing, $cHeight, '', 0, 0, 'L', 0);
+                $this->Cell($width_other, $cHeight, iconv('UTF-8', 'windows-1252',
+                    $this->currency . ' ' . number_format($item['price'], 2, $this->referenceformat[0],
+                        $this->referenceformat[1])), 0, 0, 'C', 1);
+                if (isset($this->otQuantityField)) {
                     $this->Cell($this->columnSpacing, $cHeight, '', 0, 0, 'L', 0);
-                    if (isset($item['vat'])) {
-                        $this->Cell($width_other, $cHeight, iconv('UTF-8', 'windows-1252', $item['vat']), 0, 0, 'C', 1);
+                    if (isset($item['quantity_ot'])) {
+                        $this->Cell($width_other, $cHeight, iconv('UTF-8', 'windows-1252', $item['quantity_ot']), 0, 0, 'C', 1);
                     } else {
                         $this->Cell($width_other, $cHeight, '', 0, 0, 'C', 1);
                     }
 
                 }
-                $this->Cell($this->columnSpacing, $cHeight, '', 0, 0, 'L', 0);
-                $this->Cell($width_other, $cHeight, iconv('UTF-8', 'windows-1252',
-                    $this->currency . ' ' . number_format($item['price'], 2, $this->referenceformat[0],
-                        $this->referenceformat[1])), 0, 0, 'C', 1);
-                if (isset($this->discountField)) {
+                if (isset($this->otPriceField)) {
                     $this->Cell($this->columnSpacing, $cHeight, '', 0, 0, 'L', 0);
-                    if (isset($item['discount'])) {
-                        $this->Cell($width_other, $cHeight, iconv('UTF-8', 'windows-1252', $item['discount']), 0, 0,
+                    if (isset($item['price_ot'])) {
+                        $this->Cell($width_other, $cHeight, iconv('UTF-8', 'windows-1252', $item['price_ot']), 0, 0,
                             'C', 1);
                     } else {
                         $this->Cell($width_other, $cHeight, '', 0, 0, 'C', 1);

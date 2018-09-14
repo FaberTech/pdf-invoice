@@ -8,8 +8,8 @@
   $lang['product'] 		= 'Services';
   $lang['qty'] 			= 'Hours';
   $lang['price'] 		= 'Price';
-  $lang['discount'] 	= 'Discount';
-  $lang['vat'] 			= 'Tax';
+  $lang['price_ot'] 	= 'OT Price';
+  $lang['quantity_ot'] 	= 'OT Hours';
   $lang['total'] 		= 'Total';
   $lang['page'] 		= 'Page';
   $lang['page_of'] 		= 'of';
