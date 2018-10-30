@@ -38,6 +38,7 @@ class InvoicePrinter extends FPDF
     public $due;
     public $start_date;
     public $end_date;
+    public $address;
     public $from;
     public $to;
     public $items;
@@ -191,6 +192,12 @@ class InvoicePrinter extends FPDF
     {
         $this->start_date = $start_date;
         $this->end_date = $end_date;
+    }
+
+
+    public function setAddress($address)
+    {
+        $this->address = $address;
     }
 
     public function setLogo($logo = 0, $maxWidth = 0, $maxHeight = 0)
@@ -373,6 +380,19 @@ class InvoicePrinter extends FPDF
             $this->SetFont($this->font, '', 9);
             $this->Cell(0, $lineheight, $this->start_date . ' - '. $this->end_date, 0, 1, 'R');
         }
+
+        //Address
+        if (!empty($this->address)) {
+            $this->Cell($positionX, $lineheight);
+            $this->SetFont($this->font, 'B', 9);
+            $this->SetTextColor($this->color[0], $this->color[1], $this->color[2]);
+            $this->Cell(32, $lineheight, iconv("UTF-8", "ISO-8859-1", mb_strtoupper($this->lang['address'], 'UTF-8')) . ':', 0, 0, 'L');
+            $this->SetTextColor(50, 50, 50);
+            $this->SetFont($this->font, '', 9);
+            $this->Cell(0, $lineheight, $this->address, 0, 1, 'R');
+        }
+
+
 
         //First page
         if ($this->PageNo() == 1) {
