@@ -371,7 +371,7 @@ class InvoicePrinter extends FPDF
             $this->Cell(32, $lineheight, iconv("UTF-8", "ISO-8859-1", mb_strtoupper($this->lang['period'], 'UTF-8')) . ':', 0, 0, 'L');
             $this->SetTextColor(50, 50, 50);
             $this->SetFont($this->font, '', 9);
-            $this->Cell(0, $lineheight, $this->start_date . '-'. $this->end_date, 0, 1, 'R');
+            $this->Cell(0, $lineheight, $this->start_date . ' - '. $this->end_date, 0, 1, 'R');
         }
 
         //First page
