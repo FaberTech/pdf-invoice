@@ -6,7 +6,6 @@
   $lang['to'] 			= 'Billing to';
   $lang['from'] 		= 'Billing from';
   $lang['period'] 		= 'Billing Period';
-  $lang['address'] 		= 'Address';
   $lang['product'] 		= 'Services';
   $lang['qty'] 			= 'Hours';
   $lang['price'] 		= 'Rate';
