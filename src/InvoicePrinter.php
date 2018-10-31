@@ -323,6 +323,9 @@ class InvoicePrinter extends FPDF
         $this->SetFont($this->font, '', 9);
 
 
+        $this->Ln(5);
+
+
         //Address
         if (!empty($this->address)) {
             $this->SetTextColor(50, 50, 50);
@@ -330,7 +333,6 @@ class InvoicePrinter extends FPDF
             $this->Cell(0, 5, $this->address, 0, 1, 'R');
         }
 
-        $this->Ln(5);
 
         $lineheight = 5;
         //Calculate position of strings
