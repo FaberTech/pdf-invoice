@@ -334,7 +334,7 @@ class InvoicePrinter extends FPDF
         }
 
 
-        $this->Ln(5);
+        $this->Ln(3);
 
         $lineheight = 5;
         //Calculate position of strings
