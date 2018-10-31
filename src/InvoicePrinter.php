@@ -321,6 +321,15 @@ class InvoicePrinter extends FPDF
             $this->Cell(0, 5, iconv("UTF-8", "ISO-8859-1", mb_strtoupper($this->title, 'UTF-8')), 0, 1, 'R');
         }
         $this->SetFont($this->font, '', 9);
+
+
+        //Address
+        if (!empty($this->address)) {
+            $this->SetTextColor(50, 50, 50);
+            $this->SetFont($this->font, '', 9);
+            $this->Cell(0, 5, $this->address, 0, 1, 'R');
+        }
+
         $this->Ln(5);
 
         $lineheight = 5;
@@ -329,14 +338,6 @@ class InvoicePrinter extends FPDF
         $positionX = $this->document['w'] - $this->margins['l'] - $this->margins['r'] - max(mb_strtoupper($this->GetStringWidth($this->lang['number'], 'UTF-8')),
                 mb_strtoupper($this->GetStringWidth($this->lang['date'], 'UTF-8')),
                 mb_strtoupper($this->GetStringWidth($this->lang['due'], 'UTF-8'))) - 50;
-
-
-        //Address
-        if (!empty($this->address)) {
-            $this->SetTextColor(50, 50, 50);
-            $this->SetFont($this->font, '', 9);
-            $this->Cell(0, $lineheight, $this->address, 0, 1, 'R');
-        }
 
 
         //Number
