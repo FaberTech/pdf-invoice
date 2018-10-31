@@ -323,7 +323,7 @@ class InvoicePrinter extends FPDF
         $this->SetFont($this->font, '', 9);
 
 
-        $this->Ln(5);
+        $this->Ln(2);
 
 
         //Address
@@ -333,6 +333,8 @@ class InvoicePrinter extends FPDF
             $this->Cell(0, 5, $this->address, 0, 1, 'R');
         }
 
+
+        $this->Ln(5);
 
         $lineheight = 5;
         //Calculate position of strings
