@@ -1,5 +1,6 @@
 <?php
   $lang['number']		= 'Invoice #';
+  $lang['po_number']	= 'PO #';
   $lang['date'] 		= 'Invoice Date';
   $lang['time']			= 'Invoice Time';
   $lang['due'] 			= 'Payment Due';
