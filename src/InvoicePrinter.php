@@ -31,6 +31,7 @@ class InvoicePrinter extends FPDF
     public $document;
     public $type;
     public $reference;
+    public $po_number;
     public $logo;
     public $color;
     public $date;
@@ -229,6 +230,11 @@ class InvoicePrinter extends FPDF
         $this->reference = $reference;
     }
 
+    public function setPONumber($po_number)
+    {
+        $this->po_number = $po_number;
+    }
+
     public function setNumberFormat($decimals, $thousands_sep)
     {
         $this->referenceformat = [$decimals, $thousands_sep];
@@ -354,6 +360,19 @@ class InvoicePrinter extends FPDF
             $this->SetFont($this->font, '', 9);
             $this->Cell(0, $lineheight, $this->reference, 0, 1, 'R');
         }
+
+
+        //PO Number
+        if (!empty($this->po_number)) {
+            $this->Cell($positionX, $lineheight);
+            $this->SetTextColor($this->color[0], $this->color[1], $this->color[2]);
+            $this->Cell(47, $lineheight, iconv("UTF-8", "ISO-8859-1", mb_strtoupper($this->lang['po_number'], 'UTF-8') . ':'), 0, 0,
+                'L');
+            $this->SetTextColor(50, 50, 50);
+            $this->SetFont($this->font, '', 9);
+            $this->Cell(0, $lineheight, $this->po_number, 0, 1, 'R');
+        }
+
         //Date
         $this->Cell($positionX, $lineheight);
         $this->SetFont($this->font, 'B', 9);
