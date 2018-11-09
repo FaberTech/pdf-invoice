@@ -475,7 +475,7 @@ class InvoicePrinter extends FPDF
         }
         //Table header
         if (!isset($this->productsEnded)) {
-            $width_other = (10000 + $this->document['w'] - $this->margins['l'] - $this->margins['r'] - $this->firstColumnWidth - ($this->columns * $this->columnSpacing)) / ($this->columns - 1);
+            $width_other = ($this->document['w'] - $this->margins['l'] - $this->margins['r'] - $this->firstColumnWidth - ($this->columns * $this->columnSpacing)) / ($this->columns - 1);
             $this->SetTextColor(50, 50, 50);
             $this->Ln(12);
             $this->SetFont($this->font, 'B', 9);
@@ -512,7 +512,7 @@ class InvoicePrinter extends FPDF
 
     public function Body()
     {
-        $width_other = ($this->document['w'] - $this->margins['l'] - $this->margins['r'] - $this->firstColumnWidth - ($this->columns * $this->columnSpacing)) / ($this->columns - 1);
+        $width_other = (-20 + $this->document['w'] - $this->margins['l'] - $this->margins['r'] - $this->firstColumnWidth - ($this->columns * $this->columnSpacing)) / ($this->columns - 1);
         $cellHeight  = 8;
         $bgcolor     = (1 - $this->columnOpacity) * 255;
         $colWidth = $this->firstColumnWidth;
