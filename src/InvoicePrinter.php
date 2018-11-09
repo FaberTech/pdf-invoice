@@ -56,7 +56,7 @@ class InvoicePrinter extends FPDF
      ******************************************/
     public function __construct($size = 'A4', $currency = '$', $language = 'en')
     {
-        $this->columns            = 4;
+        $this->columns            = 5;
         $this->items              = [];
         $this->totals             = [];
         $this->addText            = [];
@@ -473,7 +473,6 @@ class InvoicePrinter extends FPDF
                 $this->Ln(-10);
             }
         }
-        
         //Table header
         if (!isset($this->productsEnded)) {
             $width_other = ($this->document['w'] - $this->margins['l'] - $this->margins['r'] - $this->firstColumnWidth - ($this->columns * $this->columnSpacing)) / ($this->columns - 1);
@@ -488,7 +487,7 @@ class InvoicePrinter extends FPDF
             $this->Cell($this->columnSpacing, 10, '', 0, 0, 'L', 0);
             $this->Cell($width_other, 10, iconv("UTF-8", "ISO-8859-1", mb_strtoupper($this->lang['total_qty'], 'UTF-8')), 0, 0, 'C', 0);
             $this->Cell($this->columnSpacing, 10, '', 0, 0, 'L', 0);
-            $this->Cell($width_other, 5, iconv("UTF-8", "ISO-8859-1", mb_strtoupper($this->lang['qty'], 'UTF-8')), 0, 0, 'C', 0);
+            $this->Cell($width_other, 10, iconv("UTF-8", "ISO-8859-1", mb_strtoupper($this->lang['qty'], 'UTF-8')), 0, 0, 'C', 0);
             if (isset($this->otPriceField)) {
                 $this->Cell($this->columnSpacing, 10, '', 0, 0, 'L', 0);
                 $this->Cell($width_other, 10, iconv("UTF-8", "ISO-8859-1", mb_strtoupper($this->lang['price_ot'], 'UTF-8')), 0, 0,
@@ -496,7 +495,7 @@ class InvoicePrinter extends FPDF
             }
             if (isset($this->otQuantityField)) {
                 $this->Cell($this->columnSpacing, 10, '', 0, 0, 'L', 0);
-                $this->Cell($width_other, 5, iconv("UTF-8", "ISO-8859-1", mb_strtoupper($this->lang['quantity_ot'], 'UTF-8')), 0, 0, 'C',
+                $this->Cell($width_other, 10, iconv("UTF-8", "ISO-8859-1", mb_strtoupper($this->lang['quantity_ot'], 'UTF-8')), 0, 0, 'C',
                     0);
             }
             $this->Cell($this->columnSpacing, 10, '', 0, 0, 'L', 0);
