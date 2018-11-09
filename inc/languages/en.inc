@@ -8,6 +8,7 @@
   $lang['from'] 		= 'Billing from';
   $lang['period'] 		= 'Billing Period';
   $lang['product'] 		= 'Services';
+  $lang['total_qty']    = 'Hours Total';
   $lang['qty'] 			= 'Hours';
   $lang['price'] 		= 'Rate';
   $lang['price_ot'] 	= 'OT Rate';

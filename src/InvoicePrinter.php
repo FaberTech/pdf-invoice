@@ -245,7 +245,7 @@ class InvoicePrinter extends FPDF
         $this->flipflop = true;
     }
 
-    public function addItem($item, $description = "", $quantity, $quantity_ot, $price, $price_ot = 0, $total)
+    public function addItem($item, $description = "", $total_quantity, $quantity, $quantity_ot, $price, $price_ot = 0, $total)
     {
         $p['item']        = $item;
         $p['description'] = is_array($description) ? $description : $this->br2nl($description);
@@ -255,6 +255,7 @@ class InvoicePrinter extends FPDF
             $this->otQuantityField = true;
             $this->columns  = 5;
         }
+        $p['total_quantity'] = $total_quantity;
         $p['quantity'] = $quantity;
         $p['price']    = $price;
         $p['total']    = $total;
@@ -365,6 +366,7 @@ class InvoicePrinter extends FPDF
         //PO Number
         if (!empty($this->po_number)) {
             $this->Cell($positionX, $lineheight);
+            $this->SetFont($this->font, 'B', 9);
             $this->SetTextColor($this->color[0], $this->color[1], $this->color[2]);
             $this->Cell(47, $lineheight, iconv("UTF-8", "ISO-8859-1", mb_strtoupper($this->lang['po_number'], 'UTF-8') . ':'), 0, 0,
                 'L');
@@ -482,6 +484,8 @@ class InvoicePrinter extends FPDF
                 0, 0, 'L', 0);
             $this->Cell($this->columnSpacing, 10, '', 0, 0, 'L', 0);
             $this->Cell($width_other, 10, iconv("UTF-8", "ISO-8859-1", mb_strtoupper($this->lang['price'], 'UTF-8')), 0, 0, 'C', 0);
+            $this->Cell($this->columnSpacing, 10, '', 0, 0, 'L', 0);
+            $this->Cell($width_other, 10, iconv("UTF-8", "ISO-8859-1", mb_strtoupper($this->lang['total_qty'], 'UTF-8')), 0, 0, 'C', 0);
             $this->Cell($this->columnSpacing, 10, '', 0, 0, 'L', 0);
             $this->Cell($width_other, 10, iconv("UTF-8", "ISO-8859-1", mb_strtoupper($this->lang['qty'], 'UTF-8')), 0, 0, 'C', 0);
             if (isset($this->otPriceField)) {
@@ -601,6 +605,7 @@ class InvoicePrinter extends FPDF
                         $this->referenceformat[1])), 0, 0, 'C', 1);
                 $this->Cell($this->columnSpacing, $cHeight, '', 0, 0, 'L', 0);
                 $this->Cell($this->columnSpacing, $cHeight, '', 0, 0, 'L', 0);
+                $this->Cell($width_other, $cHeight, $item['total_quantity'], 0, 0, 'C', 1);
                 $this->Cell($width_other, $cHeight, $item['quantity'], 0, 0, 'C', 1);
                 if (isset($this->otPriceField)) {
                     $this->Cell($this->columnSpacing, $cHeight, '', 0, 0, 'L', 0);
