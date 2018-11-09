@@ -487,7 +487,7 @@ class InvoicePrinter extends FPDF
             $this->Cell($this->columnSpacing, 10, '', 0, 0, 'L', 0);
             $this->Cell($width_other, 10, iconv("UTF-8", "ISO-8859-1", mb_strtoupper($this->lang['total_qty'], 'UTF-8')), 0, 0, 'C', 0);
             $this->Cell($this->columnSpacing, 10, '', 0, 0, 'L', 0);
-            $this->Cell($width_other, 10, iconv("UTF-8", "ISO-8859-1", mb_strtoupper($this->lang['qty'], 'UTF-8')), 0, 0, 'C', 0);
+            $this->Cell($width_other, 5, iconv("UTF-8", "ISO-8859-1", mb_strtoupper($this->lang['qty'], 'UTF-8')), 0, 0, 'C', 0);
             if (isset($this->otPriceField)) {
                 $this->Cell($this->columnSpacing, 10, '', 0, 0, 'L', 0);
                 $this->Cell($width_other, 10, iconv("UTF-8", "ISO-8859-1", mb_strtoupper($this->lang['price_ot'], 'UTF-8')), 0, 0,
@@ -495,7 +495,7 @@ class InvoicePrinter extends FPDF
             }
             if (isset($this->otQuantityField)) {
                 $this->Cell($this->columnSpacing, 10, '', 0, 0, 'L', 0);
-                $this->Cell($width_other, 10, iconv("UTF-8", "ISO-8859-1", mb_strtoupper($this->lang['quantity_ot'], 'UTF-8')), 0, 0, 'C',
+                $this->Cell($width_other, 5, iconv("UTF-8", "ISO-8859-1", mb_strtoupper($this->lang['quantity_ot'], 'UTF-8')), 0, 0, 'C',
                     0);
             }
             $this->Cell($this->columnSpacing, 10, '', 0, 0, 'L', 0);
