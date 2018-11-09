@@ -8,11 +8,11 @@
   $lang['from'] 		= 'Billing from';
   $lang['period'] 		= 'Billing Period';
   $lang['product'] 		= 'Services';
-  $lang['total_qty']    = 'Hours Total';
-  $lang['qty'] 			= 'Hours';
+  $lang['total_qty']    = 'Hrs Total';
+  $lang['qty'] 			= 'Hrs';
   $lang['price'] 		= 'Rate';
   $lang['price_ot'] 	= 'OT Rate';
-  $lang['quantity_ot'] 	= 'OT Hours';
+  $lang['quantity_ot'] 	= 'OT Hrs';
   $lang['total'] 		= 'Total';
   $lang['page'] 		= 'Page';
   $lang['page_of'] 		= 'of';
