@@ -473,6 +473,7 @@ class InvoicePrinter extends FPDF
                 $this->Ln(-10);
             }
         }
+        
         //Table header
         if (!isset($this->productsEnded)) {
             $width_other = ($this->document['w'] - $this->margins['l'] - $this->margins['r'] - $this->firstColumnWidth - ($this->columns * $this->columnSpacing)) / ($this->columns - 1);
