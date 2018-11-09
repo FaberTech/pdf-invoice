@@ -56,7 +56,7 @@ class InvoicePrinter extends FPDF
      ******************************************/
     public function __construct($size = 'A4', $currency = '$', $language = 'en')
     {
-        $this->columns            = 10;
+        $this->columns            = 5;
         $this->items              = [];
         $this->totals             = [];
         $this->addText            = [];
@@ -253,7 +253,7 @@ class InvoicePrinter extends FPDF
         if ($quantity_ot !== false) {
             $p['quantity_ot'] = $quantity_ot;
             $this->otQuantityField = true;
-            $this->columns  = 5;
+            $this->columns  = 6;
         }
         $p['total_quantity'] = $total_quantity;
         $p['quantity'] = $quantity;
@@ -268,7 +268,7 @@ class InvoicePrinter extends FPDF
                         $this->referenceformat[1]);
             }
             $this->otPriceField = true;
-            $this->columns       = 6;
+            $this->columns       = 7;
         }
         $this->items[] = $p;
     }
