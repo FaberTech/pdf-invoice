@@ -56,7 +56,7 @@ class InvoicePrinter extends FPDF
      ******************************************/
     public function __construct($size = 'A4', $currency = '$', $language = 'en')
     {
-        $this->columns            = 4;
+        $this->columns            = 5;
         $this->items              = [];
         $this->totals             = [];
         $this->addText            = [];
