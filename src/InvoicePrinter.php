@@ -19,7 +19,7 @@ class InvoicePrinter extends FPDF
 
     public $font            = 'helvetica';        /* Font Name : See inc/fpdf/font for all supported fonts */
     public $columnOpacity   = 0.06;            /* Items table background color opacity. Range (0.00 - 1) */
-    public $columnSpacing   = 0.6;                /* Spacing between Item Tables */
+    public $columnSpacing   = 0.5;                /* Spacing between Item Tables */
     public $referenceformat = ['.', ','];    /* Currency formater */
     public $margins         = [
         'l' => 15,
