@@ -607,8 +607,6 @@ class InvoicePrinter extends FPDF
                 $this->Cell($width_other, $cHeight, $item['total_quantity'], 0, 0, 'C', 1);
                 $this->Cell($this->columnSpacing, $cHeight, '', 0, 0, 'L', 0);
                 $this->Cell($this->columnSpacing, $cHeight, '', 0, 0, 'L', 0);
-                $this->Cell($this->columnSpacing, $cHeight, '', 0, 0, 'L', 0);
-                $this->Cell($this->columnSpacing, $cHeight, '', 0, 0, 'L', 0);
                 $this->Cell($width_other, $cHeight, $item['quantity'], 0, 0, 'C', 1);
                 if (isset($this->otPriceField)) {
                     $this->Cell($this->columnSpacing, $cHeight, '', 0, 0, 'L', 0);
