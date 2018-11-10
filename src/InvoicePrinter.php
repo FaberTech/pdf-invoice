@@ -475,7 +475,7 @@ class InvoicePrinter extends FPDF
         }
         //Table header
         if (!isset($this->productsEnded)) {
-            $width_other = ($this->document['w'] - $this->margins['l'] - $this->margins['r'] - $this->firstColumnWidth - ($this->columns * $this->columnSpacing)) / ($this->columns - 1);
+            $width_other = ($this->document['w'] - $this->margins['l'] - $this->margins['r'] - $this->firstColumnWidth - ($this->columns * ($this->columnSpacing * 2))) / ($this->columns - 1);
             $this->SetTextColor(50, 50, 50);
             $this->Ln(12);
             $this->SetFont($this->font, 'B', 9);
@@ -605,7 +605,6 @@ class InvoicePrinter extends FPDF
                         $this->referenceformat[1])), 0, 0, 'C', 1);
                 $this->Cell($this->columnSpacing, $cHeight, '', 0, 0, 'L', 0);
                 $this->Cell($width_other, $cHeight, $item['total_quantity'], 0, 0, 'C', 1);
-                $this->Cell($this->columnSpacing, $cHeight, '', 0, 0, 'L', 0);
                 $this->Cell($this->columnSpacing, $cHeight, '', 0, 0, 'L', 0);
                 $this->Cell($width_other, $cHeight, $item['quantity'], 0, 0, 'C', 1);
                 if (isset($this->otPriceField)) {
