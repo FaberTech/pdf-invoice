@@ -11,9 +11,9 @@
 
 namespace FaberTech\PdfInvoice;
 
-use FPDF;
+use tFPDF;
 
-class InvoicePrinter extends FPDF
+class InvoicePrinter extends tFPDF
 {
     public $angle = 0;
 
