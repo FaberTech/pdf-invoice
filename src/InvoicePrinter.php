@@ -270,6 +270,11 @@ class InvoicePrinter extends FPDF
             $this->otPriceField = true;
             $this->columns       = 7;
         }
+
+        if(!$this->sections[$section_id]){
+            $this->sections[$section_id] = ['items' => []];
+        }
+
         $this->sections[$section_id]['items'] = $p;
     }
 
