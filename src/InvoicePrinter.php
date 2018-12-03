@@ -270,7 +270,7 @@ class InvoicePrinter extends FPDF
             $this->otPriceField = true;
             $this->columns       = 7;
         }
-        $this->sections[$section_id] = $p;
+        $this->sections[$section_id]['items'] = $p;
     }
 
     public function addTotal($name, $value, $colored = false)
@@ -528,7 +528,7 @@ class InvoicePrinter extends FPDF
         $bgcolor     = (1 - $this->columnOpacity) * 255;
         $colWidth = $this->firstColumnWidth;
         if ($this->sections) {
-            foreach ($this->sections as $item) {
+            foreach ($this->sections['items'] as $item) {
 
 
                     $x = $this->GetX();
