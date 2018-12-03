@@ -271,7 +271,7 @@ class InvoicePrinter extends FPDF
             $this->columns       = 7;
         }
 
-        if(!$this->sections[$section_id]){
+        if(!isset($this->sections[$section_id])){
             $this->sections[$section_id] = ['items' => []];
         }
 
