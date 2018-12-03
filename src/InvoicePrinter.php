@@ -42,7 +42,7 @@ class InvoicePrinter extends FPDF
     public $address;
     public $from;
     public $to;
-    public $items;
+    public $sections;
     public $totals;
     public $badge;
     public $addText;
@@ -57,7 +57,7 @@ class InvoicePrinter extends FPDF
     public function __construct($size = 'A4', $currency = '$', $language = 'en')
     {
         $this->columns            = 5;
-        $this->items              = [];
+        $this->sections              = [];
         $this->totals             = [];
         $this->addText            = [];
         $this->firstColumnWidth   = 70;
@@ -217,7 +217,7 @@ class InvoicePrinter extends FPDF
 
     public function setFrom($data)
     {
-        $this->from = $data;
+        https://arcteryx.com/ca/en/shop/mens/rush-jacket = $data;
     }
 
     public function setTo($data)
@@ -245,7 +245,7 @@ class InvoicePrinter extends FPDF
         $this->flipflop = true;
     }
 
-    public function addItem($item, $description = "", $total_quantity, $quantity, $quantity_ot, $price, $price_ot = 0, $total)
+    public function addItem($section_id, $item, $description = "", $total_quantity, $quantity, $quantity_ot, $price, $price_ot = 0, $total)
     {
         $p['item']        = $item;
         $p['description'] = is_array($description) ? $description : $this->br2nl($description);
@@ -270,7 +270,7 @@ class InvoicePrinter extends FPDF
             $this->otPriceField = true;
             $this->columns       = 7;
         }
-        $this->items[] = $p;
+        $this->sections[$section_id] = $p;
     }
 
     public function addTotal($name, $value, $colored = false)
@@ -473,6 +473,11 @@ class InvoicePrinter extends FPDF
                 $this->Ln(-10);
             }
         }
+    }
+
+
+    public function table_header(){
+
         //Table header
         if (!isset($this->productsEnded)) {
             $width_other = ($this->document['w'] - $this->margins['l'] - $this->margins['r'] - $this->firstColumnWidth - ($this->columns * $this->columnSpacing)) / ($this->columns - 1);
@@ -509,6 +514,9 @@ class InvoicePrinter extends FPDF
             $this->Ln(12);
         }
     }
+
+
+
 
     public function Body()
     {
