@@ -276,7 +276,7 @@ class InvoicePrinter extends FPDF
             $this->sections[$section_id]['items'] = [];
         }
 
-        $this->sections[$section_id]['items'] = $p;
+        $this->sections[$section_id]['items'][] = $p;
     }
 
     public function addTotal($name, $value, $colored = false)
