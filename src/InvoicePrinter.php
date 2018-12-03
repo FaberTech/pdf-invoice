@@ -531,12 +531,10 @@ class InvoicePrinter extends FPDF
         
         if ($this->display_tofrom === true) {
             $this->Cell($width, $lineheight, iconv("UTF-8", "ISO-8859-1//TRANSLIT", mb_strtoupper($this->lang['from'], 'UTF-8')), 0, 0, 'L');
-//            $this->Cell(0, $lineheight, iconv("UTF-8", "ISO-8859-1//TRANSLIT", mb_strtoupper($this->lang['to'], 'UTF-8')), 0, 0, 'L');
             $this->Ln(7);
             $this->SetLineWidth(0.4);
             $this->Line($this->margins['l'], $this->GetY(), $this->margins['l'] + $width - 10, $this->GetY());
-//            $this->Line($this->margins['l'] + $width, $this->GetY(), $this->margins['l'] + $width + $width,
-//                $this->GetY());
+
 
             //Information
             $this->Ln(5);
@@ -549,7 +547,6 @@ class InvoicePrinter extends FPDF
             $this->Ln(7);
             for ($i = 1; $i < max($this->from === null ? 0 : count($this->from), $this->to === null ? 0 : count($this->to)); $i++) {
                 $this->Cell($width, $lineheight, iconv("UTF-8", "ISO-8859-1//TRANSLIT", $this->from[$i]), 0, 0, 'L');
-                $this->Cell(0, $lineheight, iconv("UTF-8", "ISO-8859-1//TRANSLIT", $this->to[$i]), 0, 0, 'L');
                 $this->Ln(5);
             }
             $this->Ln(-6);
