@@ -527,121 +527,125 @@ class InvoicePrinter extends FPDF
         $cellHeight  = 8;
         $bgcolor     = (1 - $this->columnOpacity) * 255;
         $colWidth = $this->firstColumnWidth;
-        if ($this->items) {
-            foreach ($this->items as $item) {
-                $x = $this->GetX();
-                if ($item['description']) {
-                    // Calculate table column width minus spacer (=2)
-                    $colWidth = ($this->firstColumnWidth - 2) / count(max(1, $item['description'][0]));
-                    //Precalculate height
-                    $calculateHeight = new self;
-                    $calculateHeight->addPage();
-                    $calculateHeight->setXY(0, 0);
-                    if(!is_array($item['description'])) {
-                        $calculateHeight->SetFont($this->font, '', 7);
-                        $calculateHeight->MultiCell($this->firstColumnWidth, 3, iconv("UTF-8", "ISO-8859-1//TRANSLIT", $item['description']), 0, 'L', 1);
-                    } else {
-                        $calculateHeight->SetFont($this->font, '', 6);
-                        foreach ($item['description'] as $row) {
-                            foreach ($row as $idx => $col) {
-                                // Make 3rd row longer when 3 cols
-                                $colWidthMultiplier = 1;
-                                if(count($row) == 3) {
-                                    $colWidthMultiplier = $idx == 2 ? 1.5 : 0.75;
-                                }
-                                $calculateHeight->Cell($colWidth * $colWidthMultiplier, 6, $col, 0, 0, null, true);
-                            }
-                            // Add spacer (=2) to left side of table
-                            $calculateHeight->Cell(2, 6, '', 0, 0, null, true);
-                            $calculateHeight->Ln();
-                            $calculateHeight->SetX($x);
-                        }
-                    }
-                    $descriptionHeight = $calculateHeight->getY() + $cellHeight + 2;
-                    $pageHeight        = $this->document['h'] - $this->GetY() - $this->margins['t'] - $this->margins['t'];
-                    if ($pageHeight < 35) {
-                        $this->AddPage();
-                    }
-                }
-                $cHeight = $cellHeight;
-                $this->SetFont($this->font, 'b', 8);
-                $this->SetTextColor(50, 50, 50);
-                $this->SetFillColor($bgcolor, $bgcolor, $bgcolor);
-                $this->Cell(1, $cHeight, '', 0, 0, 'L', 1);
-                $x = $this->GetX();
-                $this->Cell($this->firstColumnWidth, $cHeight, iconv("UTF-8", "ISO-8859-1//TRANSLIT", $item['item']), 0, 0, 'L',
-                    1);
-                if ($item['description']) {
-                    $resetX = $this->GetX();
-                    $resetY = $this->GetY();
-                    $this->SetTextColor(120, 120, 120);
-                    $this->SetXY($x, $this->GetY() + 8);
-                    if(!is_array($item['description'])) {
-                        $this->SetFont($this->font, '', 7);
-                        $this->MultiCell($this->firstColumnWidth, 3, iconv("UTF-8", "ISO-8859-1//TRANSLIT", $item['description']), 0, 'L', 1);
-                    } else {
-                        $this->SetFont($this->font, '', 6);
-                        // Data
-                        foreach ($item['description'] as $row) {
-                            foreach ($row as $idx => $col) {
-                                // Make 3rd row longer when 3 cols
-                                $colWidthMultiplier = 1;
-                                if(count($row) == 3) {
-                                    $colWidthMultiplier = $idx == 2 ? 1.5 : 0.75;
-                                }
-                                $this->Cell($colWidth * $colWidthMultiplier, 6, $col, 0, 0, null, true);
-                            }
-                            // Add spacer (=2) to left side of table
-                            $this->Cell(2, 6, '', 0, 0, null, true);
-                            $this->Ln();
-                            $this->SetX($x);
-                        }
-                    }
-                    //Calculate Height
-                    $newY    = $this->GetY();
-                    $cHeight = $newY - $resetY + 2;
-                    //Make our spacer cell the same height
-                    $this->SetXY($x - 1, $resetY);
-                    $this->Cell(1, $cHeight, '', 0, 0, 'L', 1);
-                    //Draw empty cell
-                    $this->SetXY($x, $newY);
-                    $this->Cell($this->firstColumnWidth, 2, '', 0, 0, 'L', 1);
-                    $this->SetXY($resetX, $resetY);
-                }
-                $this->SetTextColor(50, 50, 50);
-                $this->SetFont($this->font, '', 8);
-                $this->Cell($this->columnSpacing, $cHeight, '', 0, 0, 'L', 0);
-                $this->Cell($width_other, $cHeight, iconv('UTF-8', 'windows-1252',
-                    $this->currency . ' ' . number_format($item['price'], 2, $this->referenceformat[0],
-                        $this->referenceformat[1])), 0, 0, 'C', 1);
-                $this->Cell($this->columnSpacing, $cHeight, '', 0, 0, 'L', 0);
-                $this->Cell($width_other, $cHeight, $item['total_quantity'], 0, 0, 'C', 1);
-                $this->Cell($this->columnSpacing, $cHeight, '', 0, 0, 'L', 0);
-                $this->Cell($width_other, $cHeight, $item['quantity'], 0, 0, 'C', 1);
-                if (isset($this->otPriceField)) {
-                    $this->Cell($this->columnSpacing, $cHeight, '', 0, 0, 'L', 0);
-                    if (isset($item['price_ot'])) {
-                        $this->Cell($width_other, $cHeight, iconv('UTF-8', 'windows-1252', $item['price_ot']), 0, 0,
-                            'C', 1);
-                    } else {
-                        $this->Cell($width_other, $cHeight, '', 0, 0, 'C', 1);
-                    }
-                }
-                if (isset($this->otQuantityField)) {
-                    $this->Cell($this->columnSpacing, $cHeight, '', 0, 0, 'L', 0);
-                    if (isset($item['quantity_ot'])) {
-                        $this->Cell($width_other, $cHeight, iconv('UTF-8', 'windows-1252', $item['quantity_ot']), 0, 0, 'C', 1);
-                    } else {
-                        $this->Cell($width_other, $cHeight, '', 0, 0, 'C', 1);
-                    }
+        if ($this->sections) {
+            foreach ($this->sections as $item) {
 
-                }
-                $this->Cell($this->columnSpacing, $cHeight, '', 0, 0, 'L', 0);
-                $this->Cell($width_other, $cHeight, iconv('UTF-8', 'windows-1252',
-                    $this->currency . ' ' . number_format($item['total'], 2, $this->referenceformat[0],
-                        $this->referenceformat[1])), 0, 0, 'C', 1);
-                $this->Ln();
-                $this->Ln($this->columnSpacing);
+
+                    $x = $this->GetX();
+                    if ($item['description']) {
+                        // Calculate table column width minus spacer (=2)
+                        $colWidth = ($this->firstColumnWidth - 2) / count(max(1, $item['description'][0]));
+                        //Precalculate height
+                        $calculateHeight = new self;
+                        $calculateHeight->addPage();
+                        $calculateHeight->setXY(0, 0);
+                        if(!is_array($item['description'])) {
+                            $calculateHeight->SetFont($this->font, '', 7);
+                            $calculateHeight->MultiCell($this->firstColumnWidth, 3, iconv("UTF-8", "ISO-8859-1//TRANSLIT", $item['description']), 0, 'L', 1);
+                        } else {
+                            $calculateHeight->SetFont($this->font, '', 6);
+                            foreach ($item['description'] as $row) {
+                                foreach ($row as $idx => $col) {
+                                    // Make 3rd row longer when 3 cols
+                                    $colWidthMultiplier = 1;
+                                    if(count($row) == 3) {
+                                        $colWidthMultiplier = $idx == 2 ? 1.5 : 0.75;
+                                    }
+                                    $calculateHeight->Cell($colWidth * $colWidthMultiplier, 6, $col, 0, 0, null, true);
+                                }
+                                // Add spacer (=2) to left side of table
+                                $calculateHeight->Cell(2, 6, '', 0, 0, null, true);
+                                $calculateHeight->Ln();
+                                $calculateHeight->SetX($x);
+                            }
+                        }
+                        $descriptionHeight = $calculateHeight->getY() + $cellHeight + 2;
+                        $pageHeight        = $this->document['h'] - $this->GetY() - $this->margins['t'] - $this->margins['t'];
+                        if ($pageHeight < 35) {
+                            $this->AddPage();
+                        }
+                    }
+                    $cHeight = $cellHeight;
+                    $this->SetFont($this->font, 'b', 8);
+                    $this->SetTextColor(50, 50, 50);
+                    $this->SetFillColor($bgcolor, $bgcolor, $bgcolor);
+                    $this->Cell(1, $cHeight, '', 0, 0, 'L', 1);
+                    $x = $this->GetX();
+                    $this->Cell($this->firstColumnWidth, $cHeight, iconv("UTF-8", "ISO-8859-1//TRANSLIT", $item['item']), 0, 0, 'L',
+                        1);
+                    if ($item['description']) {
+                        $resetX = $this->GetX();
+                        $resetY = $this->GetY();
+                        $this->SetTextColor(120, 120, 120);
+                        $this->SetXY($x, $this->GetY() + 8);
+                        if(!is_array($item['description'])) {
+                            $this->SetFont($this->font, '', 7);
+                            $this->MultiCell($this->firstColumnWidth, 3, iconv("UTF-8", "ISO-8859-1//TRANSLIT", $item['description']), 0, 'L', 1);
+                        } else {
+                            $this->SetFont($this->font, '', 6);
+                            // Data
+                            foreach ($item['description'] as $row) {
+                                foreach ($row as $idx => $col) {
+                                    // Make 3rd row longer when 3 cols
+                                    $colWidthMultiplier = 1;
+                                    if(count($row) == 3) {
+                                        $colWidthMultiplier = $idx == 2 ? 1.5 : 0.75;
+                                    }
+                                    $this->Cell($colWidth * $colWidthMultiplier, 6, $col, 0, 0, null, true);
+                                }
+                                // Add spacer (=2) to left side of table
+                                $this->Cell(2, 6, '', 0, 0, null, true);
+                                $this->Ln();
+                                $this->SetX($x);
+                            }
+                        }
+                        //Calculate Height
+                        $newY    = $this->GetY();
+                        $cHeight = $newY - $resetY + 2;
+                        //Make our spacer cell the same height
+                        $this->SetXY($x - 1, $resetY);
+                        $this->Cell(1, $cHeight, '', 0, 0, 'L', 1);
+                        //Draw empty cell
+                        $this->SetXY($x, $newY);
+                        $this->Cell($this->firstColumnWidth, 2, '', 0, 0, 'L', 1);
+                        $this->SetXY($resetX, $resetY);
+                    }
+                    $this->SetTextColor(50, 50, 50);
+                    $this->SetFont($this->font, '', 8);
+                    $this->Cell($this->columnSpacing, $cHeight, '', 0, 0, 'L', 0);
+                    $this->Cell($width_other, $cHeight, iconv('UTF-8', 'windows-1252',
+                        $this->currency . ' ' . number_format($item['price'], 2, $this->referenceformat[0],
+                            $this->referenceformat[1])), 0, 0, 'C', 1);
+                    $this->Cell($this->columnSpacing, $cHeight, '', 0, 0, 'L', 0);
+                    $this->Cell($width_other, $cHeight, $item['total_quantity'], 0, 0, 'C', 1);
+                    $this->Cell($this->columnSpacing, $cHeight, '', 0, 0, 'L', 0);
+                    $this->Cell($width_other, $cHeight, $item['quantity'], 0, 0, 'C', 1);
+                    if (isset($this->otPriceField)) {
+                        $this->Cell($this->columnSpacing, $cHeight, '', 0, 0, 'L', 0);
+                        if (isset($item['price_ot'])) {
+                            $this->Cell($width_other, $cHeight, iconv('UTF-8', 'windows-1252', $item['price_ot']), 0, 0,
+                                'C', 1);
+                        } else {
+                            $this->Cell($width_other, $cHeight, '', 0, 0, 'C', 1);
+                        }
+                    }
+                    if (isset($this->otQuantityField)) {
+                        $this->Cell($this->columnSpacing, $cHeight, '', 0, 0, 'L', 0);
+                        if (isset($item['quantity_ot'])) {
+                            $this->Cell($width_other, $cHeight, iconv('UTF-8', 'windows-1252', $item['quantity_ot']), 0, 0, 'C', 1);
+                        } else {
+                            $this->Cell($width_other, $cHeight, '', 0, 0, 'C', 1);
+                        }
+
+                    }
+                    $this->Cell($this->columnSpacing, $cHeight, '', 0, 0, 'L', 0);
+                    $this->Cell($width_other, $cHeight, iconv('UTF-8', 'windows-1252',
+                        $this->currency . ' ' . number_format($item['total'], 2, $this->referenceformat[0],
+                            $this->referenceformat[1])), 0, 0, 'C', 1);
+                    $this->Ln();
+                    $this->Ln($this->columnSpacing);
+
+
             }
         }
         $badgeX = $this->getX();
