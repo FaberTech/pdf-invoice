@@ -217,7 +217,7 @@ class InvoicePrinter extends FPDF
 
     public function setFrom($data)
     {
-        https://arcteryx.com/ca/en/shop/mens/rush-jacket = $data;
+        $this->from = $data;
     }
 
     public function setTo($data)
