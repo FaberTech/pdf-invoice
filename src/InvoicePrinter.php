@@ -526,6 +526,9 @@ class InvoicePrinter extends FPDF
 
     public function section_header(){
 
+        $lineheight = 5;
+        $width = ($this->document['w'] - $this->margins['l'] - $this->margins['r']) / 2;
+        
         if ($this->display_tofrom === true) {
             $this->Cell($width, $lineheight, iconv("UTF-8", "ISO-8859-1//TRANSLIT", mb_strtoupper($this->lang['from'], 'UTF-8')), 0, 0, 'L');
             $this->Cell(0, $lineheight, iconv("UTF-8", "ISO-8859-1//TRANSLIT", mb_strtoupper($this->lang['to'], 'UTF-8')), 0, 0, 'L');
