@@ -534,7 +534,9 @@ class InvoicePrinter extends FPDF
         $bgcolor     = (1 - $this->columnOpacity) * 255;
         $colWidth = $this->firstColumnWidth;
         if ($this->sections) {
-            foreach ($this->sections['items'] as $item) {
+            foreach ($this->sections as $section){
+
+                foreach($section['items'] as $item) {
 
 
                     $x = $this->GetX();
@@ -545,7 +547,7 @@ class InvoicePrinter extends FPDF
                         $calculateHeight = new self;
                         $calculateHeight->addPage();
                         $calculateHeight->setXY(0, 0);
-                        if(!is_array($item['description'])) {
+                        if (!is_array($item['description'])) {
                             $calculateHeight->SetFont($this->font, '', 7);
                             $calculateHeight->MultiCell($this->firstColumnWidth, 3, iconv("UTF-8", "ISO-8859-1//TRANSLIT", $item['description']), 0, 'L', 1);
                         } else {
@@ -554,7 +556,7 @@ class InvoicePrinter extends FPDF
                                 foreach ($row as $idx => $col) {
                                     // Make 3rd row longer when 3 cols
                                     $colWidthMultiplier = 1;
-                                    if(count($row) == 3) {
+                                    if (count($row) == 3) {
                                         $colWidthMultiplier = $idx == 2 ? 1.5 : 0.75;
                                     }
                                     $calculateHeight->Cell($colWidth * $colWidthMultiplier, 6, $col, 0, 0, null, true);
@@ -566,7 +568,7 @@ class InvoicePrinter extends FPDF
                             }
                         }
                         $descriptionHeight = $calculateHeight->getY() + $cellHeight + 2;
-                        $pageHeight        = $this->document['h'] - $this->GetY() - $this->margins['t'] - $this->margins['t'];
+                        $pageHeight = $this->document['h'] - $this->GetY() - $this->margins['t'] - $this->margins['t'];
                         if ($pageHeight < 35) {
                             $this->AddPage();
                         }
@@ -584,7 +586,7 @@ class InvoicePrinter extends FPDF
                         $resetY = $this->GetY();
                         $this->SetTextColor(120, 120, 120);
                         $this->SetXY($x, $this->GetY() + 8);
-                        if(!is_array($item['description'])) {
+                        if (!is_array($item['description'])) {
                             $this->SetFont($this->font, '', 7);
                             $this->MultiCell($this->firstColumnWidth, 3, iconv("UTF-8", "ISO-8859-1//TRANSLIT", $item['description']), 0, 'L', 1);
                         } else {
@@ -594,7 +596,7 @@ class InvoicePrinter extends FPDF
                                 foreach ($row as $idx => $col) {
                                     // Make 3rd row longer when 3 cols
                                     $colWidthMultiplier = 1;
-                                    if(count($row) == 3) {
+                                    if (count($row) == 3) {
                                         $colWidthMultiplier = $idx == 2 ? 1.5 : 0.75;
                                     }
                                     $this->Cell($colWidth * $colWidthMultiplier, 6, $col, 0, 0, null, true);
@@ -606,7 +608,7 @@ class InvoicePrinter extends FPDF
                             }
                         }
                         //Calculate Height
-                        $newY    = $this->GetY();
+                        $newY = $this->GetY();
                         $cHeight = $newY - $resetY + 2;
                         //Make our spacer cell the same height
                         $this->SetXY($x - 1, $resetY);
@@ -650,7 +652,7 @@ class InvoicePrinter extends FPDF
                             $this->referenceformat[1])), 0, 0, 'C', 1);
                     $this->Ln();
                     $this->Ln($this->columnSpacing);
-
+                }
 
             }
         }
