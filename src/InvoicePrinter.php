@@ -577,10 +577,10 @@ class InvoicePrinter extends FPDF
             foreach ($this->sections as $section){
 
                 $this->section_header($section);
+                $this->table_header();
 
                 foreach($section['items'] as $item) {
 
-                    $this->table_header();
 
                     $x = $this->GetX();
                     if ($item['description']) {
