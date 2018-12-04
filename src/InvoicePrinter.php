@@ -245,7 +245,7 @@ class InvoicePrinter extends FPDF
         $this->flipflop = true;
     }
 
-    public function addItem($section_id, $item, $description = "", $total_quantity, $quantity, $quantity_ot, $price, $price_ot = 0, $total)
+    public function addItem($project_id, $project_address, $project_supervisor, $item, $description = "", $total_quantity, $quantity, $quantity_ot, $price, $price_ot = 0, $total, $po_number = null)
     {
         $p['item']        = $item;
         $p['description'] = is_array($description) ? $description : $this->br2nl($description);
@@ -271,12 +271,15 @@ class InvoicePrinter extends FPDF
             $this->columns       = 7;
         }
 
-        if(!isset($this->sections[$section_id])){
-            $this->sections[$section_id] = [];
-            $this->sections[$section_id]['items'] = [];
+        if(!isset($this->sections[$project_id])){
+            $this->sections[$project_id] = [];
+            $this->sections[$project_id]['address'] = $project_address;
+            $this->sections[$project_id]['supervisor'] = $project_supervisor;
+            $this->sections[$project_id]['po_number'] = $po_number;
+            $this->sections[$project_id]['items'] = [];
         }
 
-        $this->sections[$section_id]['items'][] = $p;
+        $this->sections[$project_id]['items'][] = $p;
     }
 
     public function addTotal($name, $value, $colored = false)
@@ -524,7 +527,7 @@ class InvoicePrinter extends FPDF
 
     //Section Header
 
-    public function section_header(){
+    public function section_header($section){
 
         $lineheight = 5;
         $width = ($this->document['w'] - $this->margins['l'] - $this->margins['r']);
@@ -537,14 +540,19 @@ class InvoicePrinter extends FPDF
             //Information
             $this->SetTextColor(50, 50, 50);
             $this->SetFont($this->font, 'B', 10);
-            $this->Cell($width, $lineheight, $this->from[0], 0, 0, 'L');
+
+            $title = $section['address'];
+
+            if ($section['po_number']){
+                $title = '#'. $section['po_number']. ' - '. $title;
+            }
+            $this->Cell($width, $lineheight, $title, 0, 0, 'L');
             $this->SetFont($this->font, '', 8);
             $this->SetTextColor(100, 100, 100);
             $this->Ln(7);
-            for ($i = 1; $i < max($this->from === null ? 0 : count($this->from), $this->to === null ? 0 : count($this->to)); $i++) {
-                $this->Cell($width, $lineheight, iconv("UTF-8", "ISO-8859-1//TRANSLIT", $this->from[$i]), 0, 0, 'L');
-                $this->Ln(5);
-            }
+            // project supervisor
+            $this->Cell($width, $lineheight, iconv("UTF-8", "ISO-8859-1//TRANSLIT", 'Supervisor: '.$section['supervisor']), 0, 0, 'L');
+            $this->Ln(5);
             $this->SetLineWidth(0.4);
             $this->Line($this->margins['l'], $this->GetY(), $this->margins['l'] + $width - 10, $this->GetY());
 
@@ -560,9 +568,6 @@ class InvoicePrinter extends FPDF
     public function Body()
     {
 
-        $this->section_header();
-        $this->table_header();
-
 
         $width_other = ($this->document['w'] - $this->margins['l'] - $this->margins['r'] - $this->firstColumnWidth - ($this->columns * $this->columnSpacing)) / ($this->columns - 1);
         $cellHeight  = 8;
@@ -571,8 +576,11 @@ class InvoicePrinter extends FPDF
         if ($this->sections) {
             foreach ($this->sections as $section){
 
+                $this->section_header($section);
+
                 foreach($section['items'] as $item) {
 
+                    $this->table_header();
 
                     $x = $this->GetX();
                     if ($item['description']) {
