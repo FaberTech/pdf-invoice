@@ -530,7 +530,6 @@ class InvoicePrinter extends FPDF
         $width = ($this->document['w'] - $this->margins['l'] - $this->margins['r']);
         
         if ($this->display_tofrom === true) {
-            $this->Cell($width, $lineheight, iconv("UTF-8", "ISO-8859-1//TRANSLIT", mb_strtoupper($this->lang['from'], 'UTF-8')), 0, 0, 'L');
 
 
             $this->Ln(12);
@@ -539,7 +538,6 @@ class InvoicePrinter extends FPDF
             $this->SetTextColor(50, 50, 50);
             $this->SetFont($this->font, 'B', 10);
             $this->Cell($width, $lineheight, $this->from[0], 0, 0, 'L');
-            $this->Cell(0, $lineheight, iconv("UTF-8", "ISO-8859-1//TRANSLIT", $this->to[0]), 0, 0, 'L');
             $this->SetFont($this->font, '', 8);
             $this->SetTextColor(100, 100, 100);
             $this->Ln(7);
