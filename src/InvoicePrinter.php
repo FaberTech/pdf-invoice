@@ -576,6 +576,7 @@ class InvoicePrinter extends FPDF
         $this->SetTextColor(100, 100, 100);
         $this->Ln(7);
 
+        $width_other = ($this->document['w'] - $this->margins['l'] - $this->margins['r'] - $this->firstColumnWidth - ($this->columns * $this->columnSpacing)) / ($this->columns - 1);
         $cellHeight  = 8;
         $bgcolor     = (1 - $this->columnOpacity) * 255;
 
@@ -590,7 +591,7 @@ class InvoicePrinter extends FPDF
                 $this->SetFillColor($bgcolor, $bgcolor, $bgcolor);
                 $this->Cell(1 + $this->firstColumnWidth, $cellHeight, '', 0, 0, 'L', 0);
                 for ($i = 0; $i < $this->columns - 3; $i++) {
-                    $this->Cell(0, $cellHeight, '', 0, 0, 'L', 0);
+                    $this->Cell($width_other, $cellHeight, '', 0, 0, 'L', 0);
                     $this->Cell($this->columnSpacing, $cellHeight, '', 0, 0, 'L', 0);
                 }
                 $this->Cell($this->columnSpacing, $cellHeight, '', 0, 0, 'L', 0);
@@ -609,7 +610,7 @@ class InvoicePrinter extends FPDF
                     $this->SetTextColor(255, 255, 255);
                     $this->SetFillColor($this->color[0], $this->color[1], $this->color[2]);
                 }
-                $this->Cell(0, $cellHeight, iconv('UTF-8', 'windows-1252', $total['value']), 0, 0, 'C', 1);
+                $this->Cell($width_other, $cellHeight, iconv('UTF-8', 'windows-1252', $total['value']), 0, 0, 'C', 1);
                 $this->Ln();
                 $this->Ln($this->columnSpacing);
             }
