@@ -759,6 +759,64 @@ class InvoicePrinter extends FPDF
             }
         }
 
+        //First page
+        if ($this->PageNo() == 1) {
+            if (($this->margins['t'] + $this->dimensions[1]) > $this->GetY()) {
+                $this->SetY($this->margins['t'] + $this->dimensions[1] + 5);
+            } else {
+                $this->SetY($this->GetY() + 10);
+            }
+            $this->Ln(5);
+            $this->SetFillColor($this->color[0], $this->color[1], $this->color[2]);
+            $this->SetTextColor($this->color[0], $this->color[1], $this->color[2]);
+
+            $this->SetDrawColor($this->color[0], $this->color[1], $this->color[2]);
+            $this->SetFont($this->font, 'B', 10);
+            $width = ($this->document['w'] - $this->margins['l'] - $this->margins['r']) / 2;
+            if (isset($this->flipflop)) {
+                $to                 = $this->lang['to'];
+                $from               = $this->lang['from'];
+                $this->lang['to']   = $from;
+                $this->lang['from'] = $to;
+                $to                 = $this->to;
+                $from               = $this->from;
+                $this->to           = $from;
+                $this->from         = $to;
+            }
+
+            if ($this->display_tofrom === true) {
+                $this->Cell($width, $lineheight, iconv("UTF-8", "ISO-8859-1//TRANSLIT", mb_strtoupper($this->lang['from'], 'UTF-8')), 0, 0, 'L');
+                $this->Cell(0, $lineheight, iconv("UTF-8", "ISO-8859-1//TRANSLIT", mb_strtoupper($this->lang['to'], 'UTF-8')), 0, 0, 'L');
+                $this->Ln(7);
+                $this->SetLineWidth(0.4);
+                $this->Line($this->margins['l'], $this->GetY(), $this->margins['l'] + $width - 10, $this->GetY());
+                $this->Line($this->margins['l'] + $width, $this->GetY(), $this->margins['l'] + $width + $width,
+                    $this->GetY());
+
+                //Information
+                $this->Ln(5);
+                $this->SetTextColor(50, 50, 50);
+                $this->SetFont($this->font, 'B', 10);
+                $this->Cell($width, $lineheight, $this->from[0], 0, 0, 'L');
+                $this->Cell(0, $lineheight, iconv("UTF-8", "ISO-8859-1//TRANSLIT", $this->to[0]), 0, 0, 'L');
+                $this->SetFont($this->font, '', 8);
+                $this->SetTextColor(100, 100, 100);
+                $this->Ln(7);
+                for ($i = 1; $i < max($this->from === null ? 0 : count($this->from), $this->to === null ? 0 : count($this->to)); $i++) {
+                    $this->Cell($width, $lineheight, iconv("UTF-8", "ISO-8859-1//TRANSLIT", $this->from[$i]), 0, 0, 'L');
+                    $this->Cell(0, $lineheight, iconv("UTF-8", "ISO-8859-1//TRANSLIT", $this->to[$i]), 0, 0, 'L');
+                    $this->Ln(5);
+                }
+                $this->Ln(-6);
+                $this->Ln(5);
+            } else {
+                $this->Ln(-10);
+            }
+        }
+
+
+
+
         //Add information
         foreach ($this->addText as $text) {
             if ($text[0] == 'title') {
