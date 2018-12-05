@@ -562,7 +562,7 @@ class InvoicePrinter extends FPDF
 
     //Totals section
 
-    public function totals_section($section){
+    public function totals_section(){
 
 
         $width_other = ($this->document['w'] - $this->margins['l'] - $this->margins['r'] - $this->firstColumnWidth - ($this->columns * $this->columnSpacing)) / ($this->columns - 1);
