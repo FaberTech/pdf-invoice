@@ -571,7 +571,7 @@ class InvoicePrinter extends FPDF
         $this->Ln(5);
         $this->SetTextColor(50, 50, 50);
         $this->SetFont($this->font, 'B', 10);
-        $this->Cell(0, $lineheight, $this->lang['grand_total'], 0, 0, 'L');
+        $this->Cell($width, $lineheight, $this->lang['grand_total'], 0, 0, 'L');
         $this->SetFont($this->font, '', 8);
         $this->SetTextColor(100, 100, 100);
         $this->Ln(7);
@@ -594,7 +594,7 @@ class InvoicePrinter extends FPDF
                     $this->Cell($width_other, $cellHeight, '', 0, 0, 'L', 0);
                     $this->Cell($this->columnSpacing, $cellHeight, '', 0, 0, 'L', 0);
                 }
-                $this->Cell($this->columnSpacing, $cellHeight, '', 0, 0, 'L', 0);
+                $this->Cell(0, $cellHeight, '', 0, 0, 'L', 0);
                 if ($total['colored']) {
                     $this->SetTextColor(255, 255, 255);
                     $this->SetFillColor($this->color[0], $this->color[1], $this->color[2]);
