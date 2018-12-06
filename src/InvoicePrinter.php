@@ -490,12 +490,11 @@ class InvoicePrinter extends FPDF
 
     public function table_header(){
 
-
         //Table header
         if (!isset($this->productsEnded)) {
-            $this->Ln(5);
             $width_other = ($this->document['w'] - $this->margins['l'] - $this->margins['r'] - $this->firstColumnWidth - ($this->columns * $this->columnSpacing)) / ($this->columns - 1);
             $this->SetTextColor(50, 50, 50);
+            $this->Ln(12);
             $this->SetFont($this->font, 'B', 9);
             $this->Cell(1, 10, '', 0, 0, 'L', 0);
             $this->Cell($this->firstColumnWidth, 10, iconv("UTF-8", "ISO-8859-1//TRANSLIT", mb_strtoupper($this->lang['product'], 'UTF-8')),
@@ -518,7 +517,7 @@ class InvoicePrinter extends FPDF
             }
             $this->Cell($this->columnSpacing, 10, '', 0, 0, 'L', 0);
             $this->Cell($width_other, 10, iconv("UTF-8", "ISO-8859-1//TRANSLIT", mb_strtoupper($this->lang['total'], 'UTF-8')), 0, 0, 'C', 0);
-
+            $this->Ln();
             $this->SetLineWidth(0.3);
             $this->SetDrawColor($this->color[0], $this->color[1], $this->color[2]);
             $this->Line($this->margins['l'], $this->GetY(), $this->document['w'] - $this->margins['r'], $this->GetY());
@@ -552,13 +551,15 @@ class InvoicePrinter extends FPDF
         $this->Cell($width, $lineheight, $title, 0, 0, 'L');
         $this->SetFont($this->font, '', 8);
         $this->SetTextColor(100, 100, 100);
-        $this->Ln(2);
+        $this->Ln(7);
         // project supervisor
         $this->Cell($width, $lineheight, iconv("UTF-8", "ISO-8859-1//TRANSLIT", 'Supervisor: '.$section['supervisor']), 0, 0, 'L');
-        $this->Ln(2);
+        $this->Ln(5);
         $this->SetLineWidth(0.4);
         $this->SetDrawColor($this->color[0], $this->color[1], $this->color[2]);
         $this->Line($this->margins['l'], $this->GetY(), $this->margins['l'] + $width, $this->GetY());
+
+        $this->Ln(1);
 
     }
 
