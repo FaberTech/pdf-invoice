@@ -488,6 +488,45 @@ class InvoicePrinter extends FPDF
     }
 
 
+
+    //Section Header
+
+    public function section_header($section){
+
+        $lineheight = 5;
+        $width = ($this->document['w'] - $this->margins['l'] - $this->margins['r']);
+
+
+
+        $this->Ln(12);
+
+        //Information
+        $this->SetTextColor(50, 50, 50);
+        $this->SetFont($this->font, 'B', 10);
+
+        $title = $section['address'];
+
+        if ($section['po_number']){
+            $title = '#'. $section['po_number']. ' - '. $title;
+        }
+        $this->Cell($width, $lineheight, $title, 0, 0, 'L');
+        $this->SetFont($this->font, '', 8);
+        $this->SetTextColor(100, 100, 100);
+        $this->Ln(7);
+        // project supervisor
+        $this->Cell($width, $lineheight, iconv("UTF-8", "ISO-8859-1//TRANSLIT", 'Supervisor: '.$section['supervisor']), 0, 0, 'L');
+        $this->Ln(5);
+        $this->SetLineWidth(0.4);
+        $this->SetDrawColor($this->color[0], $this->color[1], $this->color[2]);
+        $this->Line($this->margins['l'], $this->GetY(), $this->margins['l'] + $width, $this->GetY());
+
+        $this->Ln(2);
+
+    }
+
+
+
+
     public function table_header(){
 
         //Table header
@@ -528,40 +567,9 @@ class InvoicePrinter extends FPDF
     }
 
 
-    //Section Header
-
-    public function section_header($section){
-
-        $lineheight = 5;
-        $width = ($this->document['w'] - $this->margins['l'] - $this->margins['r']);
 
 
 
-        $this->Ln(12);
-
-        //Information
-        $this->SetTextColor(50, 50, 50);
-        $this->SetFont($this->font, 'B', 10);
-
-        $title = $section['address'];
-
-        if ($section['po_number']){
-            $title = '#'. $section['po_number']. ' - '. $title;
-        }
-        $this->Cell($width, $lineheight, $title, 0, 0, 'L');
-        $this->SetFont($this->font, '', 8);
-        $this->SetTextColor(100, 100, 100);
-        $this->Ln(7);
-        // project supervisor
-        $this->Cell($width, $lineheight, iconv("UTF-8", "ISO-8859-1//TRANSLIT", 'Supervisor: '.$section['supervisor']), 0, 0, 'L');
-        $this->Ln(5);
-        $this->SetLineWidth(0.4);
-        $this->SetDrawColor($this->color[0], $this->color[1], $this->color[2]);
-        $this->Line($this->margins['l'], $this->GetY(), $this->margins['l'] + $width, $this->GetY());
-
-        $this->Ln(1);
-
-    }
 
     //Totals section
 
