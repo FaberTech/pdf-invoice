@@ -60,7 +60,7 @@ class InvoicePrinter extends FPDF
         $this->sections              = [];
         $this->totals             = [];
         $this->addText            = [];
-        $this->firstColumnWidth   = 70;
+        $this->firstColumnWidth   = 7;
         $this->currency           = $currency;
         $this->maxImageDimensions = [230, 130];
         $this->setLanguage($language);
@@ -611,7 +611,7 @@ class InvoicePrinter extends FPDF
                     $this->SetTextColor(255, 255, 255);
                     $this->SetFillColor($this->color[0], $this->color[1], $this->color[2]);
                 }
-                $this->Cell($width_other, $cellHeight, iconv('UTF-8', 'windows-1252', $total['value']), 0, 0, 'L', 1);
+                $this->Cell($width_other, $cellHeight, iconv('UTF-8', 'windows-1252', $total['value']), 0, 0, 'l', 1);
                 $this->Ln();
                 $this->Ln($this->columnSpacing);
             }
