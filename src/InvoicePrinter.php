@@ -582,7 +582,8 @@ class InvoicePrinter extends FPDF
 
         $this->Ln(5);
         $this->SetLineWidth(0.4);
-        $this->Line($this->margins['l'], $this->GetY(), $this->margins['l'] + $width + $width, $this->GetY());
+        $this->Line($this->margins['l'], $this->GetY(), $this->margins['l'] + $width, $this->GetY());
+        $this->Ln(7);
 
         //Add totals
         if ($this->totals) {
