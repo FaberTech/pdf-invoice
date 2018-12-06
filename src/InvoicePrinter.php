@@ -559,8 +559,7 @@ class InvoicePrinter extends FPDF
         $this->SetDrawColor($this->color[0], $this->color[1], $this->color[2]);
         $this->Line($this->margins['l'], $this->GetY(), $this->margins['l'] + $width, $this->GetY());
 
-        $this->Ln(-6);
-        $this->Ln(5);
+        $this->Ln(1);
 
     }
 
