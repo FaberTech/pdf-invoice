@@ -60,7 +60,7 @@ class InvoicePrinter extends FPDF
         $this->sections              = [];
         $this->totals             = [];
         $this->addText            = [];
-        $this->firstColumnWidth   = 7;
+        $this->firstColumnWidth   = 70;
         $this->currency           = $currency;
         $this->maxImageDimensions = [230, 130];
         $this->setLanguage($language);
@@ -567,11 +567,20 @@ class InvoicePrinter extends FPDF
         $width = ($this->document['w'] - $this->margins['l'] - $this->margins['r']) / 2;
 
 
+        $this->Cell($width, $lineheight, iconv("UTF-8", "ISO-8859-1//TRANSLIT", mb_strtoupper($this->lang['from'], 'UTF-8')), 0, 0, 'L');
+        $this->Cell(0, $lineheight, iconv("UTF-8", "ISO-8859-1//TRANSLIT", mb_strtoupper($this->lang['to'], 'UTF-8')), 0, 0, 'L');
+        $this->Ln(7);
+        $this->SetLineWidth(0.4);
+        $this->Line($this->margins['l'], $this->GetY(), $this->margins['l'] + $width - 10, $this->GetY());
+        $this->Line($this->margins['l'] + $width, $this->GetY(), $this->margins['l'] + $width + $width,
+            $this->GetY());
+
         //Information
         $this->Ln(5);
         $this->SetTextColor(50, 50, 50);
         $this->SetFont($this->font, 'B', 10);
-        $this->Cell($width, $lineheight, $this->lang['grand_total'], 0, 0, 'L');
+        $this->Cell($width, $lineheight, $this->from[0], 0, 0, 'L');
+        $this->Cell(0, $lineheight, iconv("UTF-8", "ISO-8859-1//TRANSLIT", $this->to[0]), 0, 0, 'L');
         $this->SetFont($this->font, '', 8);
         $this->SetTextColor(100, 100, 100);
         $this->Ln(7);
@@ -581,20 +590,19 @@ class InvoicePrinter extends FPDF
         $bgcolor     = (1 - $this->columnOpacity) * 255;
 
         $this->Ln(5);
-//        $this->SetLineWidth(0.4);
+        $this->SetLineWidth(0.4);
         $this->Line($this->margins['l'], $this->GetY(), $this->margins['l'] + $width, $this->GetY());
-        $this->Ln(7);
 
         //Add totals
         if ($this->totals) {
             foreach ($this->totals as $total) {
                 $this->SetTextColor(50, 50, 50);
                 $this->SetFillColor($bgcolor, $bgcolor, $bgcolor);
-//                $this->Cell($width_other, $cellHeight, '', 0, 0, 'L', 0);
-//                for ($i = 0; $i < $this->columns - 3; $i++) {
-//                    $this->Cell($width_other, $cellHeight, '', 0, 0, 'L', 0);
-//                    $this->Cell($this->columnSpacing, $cellHeight, '', 0, 0, 'L', 0);
-//                }
+                $this->Cell(1 + $this->firstColumnWidth, $cellHeight, '', 0, 0, 'L', 0);
+                for ($i = 0; $i < $this->columns - 3; $i++) {
+                    $this->Cell($width_other, $cellHeight, '', 0, 0, 'L', 0);
+                    $this->Cell($this->columnSpacing, $cellHeight, '', 0, 0, 'L', 0);
+                }
                 $this->Cell($this->columnSpacing, $cellHeight, '', 0, 0, 'L', 0);
                 if ($total['colored']) {
                     $this->SetTextColor(255, 255, 255);
@@ -602,7 +610,7 @@ class InvoicePrinter extends FPDF
                 }
                 $this->SetFont($this->font, 'b', 8);
                 $this->Cell(1, $cellHeight, '', 0, 0, 'L', 1);
-                $this->Cell(0 , $cellHeight, iconv('UTF-8', 'windows-1252', $total['name']), 0, 0, 'L',
+                $this->Cell($width_other - 1, $cellHeight, iconv('UTF-8', 'windows-1252', $total['name']), 0, 0, 'L',
                     1);
                 $this->Cell($this->columnSpacing, $cellHeight, '', 0, 0, 'L', 0);
                 $this->SetFont($this->font, 'b', 8);
@@ -611,7 +619,7 @@ class InvoicePrinter extends FPDF
                     $this->SetTextColor(255, 255, 255);
                     $this->SetFillColor($this->color[0], $this->color[1], $this->color[2]);
                 }
-                $this->Cell($width_other, $cellHeight, iconv('UTF-8', 'windows-1252', $total['value']), 0, 0, 'l', 1);
+                $this->Cell($width_other, $cellHeight, iconv('UTF-8', 'windows-1252', $total['value']), 0, 0, 'C', 1);
                 $this->Ln();
                 $this->Ln($this->columnSpacing);
             }
