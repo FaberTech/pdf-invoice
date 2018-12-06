@@ -556,6 +556,7 @@ class InvoicePrinter extends FPDF
         $this->Cell($width, $lineheight, iconv("UTF-8", "ISO-8859-1//TRANSLIT", 'Supervisor: '.$section['supervisor']), 0, 0, 'L');
         $this->Ln(5);
         $this->SetLineWidth(0.4);
+        $this->SetDrawColor($this->color[0], $this->color[1], $this->color[2]);
         $this->Line($this->margins['l'], $this->GetY(), $this->margins['l'] + $width, $this->GetY());
 
         $this->Ln(-6);
