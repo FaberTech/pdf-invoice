@@ -581,7 +581,7 @@ class InvoicePrinter extends FPDF
         $bgcolor     = (1 - $this->columnOpacity) * 255;
 
         $this->Ln(5);
-        $this->SetLineWidth(0.4);
+//        $this->SetLineWidth(0.4);
         $this->Line($this->margins['l'], $this->GetY(), $this->margins['l'] + $width, $this->GetY());
         $this->Ln(7);
 
