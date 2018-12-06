@@ -537,7 +537,7 @@ class InvoicePrinter extends FPDF
 
 
 
-        $this->Ln(12);
+        $this->Ln(1);
 
         //Information
         $this->SetTextColor(50, 50, 50);
