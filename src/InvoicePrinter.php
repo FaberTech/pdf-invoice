@@ -493,7 +493,7 @@ class InvoicePrinter extends FPDF
 
         //Table header
         if (!isset($this->productsEnded)) {
-            $this->Ln();
+            $this->Ln(5);
             $width_other = ($this->document['w'] - $this->margins['l'] - $this->margins['r'] - $this->firstColumnWidth - ($this->columns * $this->columnSpacing)) / ($this->columns - 1);
             $this->SetTextColor(50, 50, 50);
             $this->SetFont($this->font, 'B', 9);
