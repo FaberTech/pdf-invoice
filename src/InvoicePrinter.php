@@ -579,7 +579,7 @@ class InvoicePrinter extends FPDF
         $this->Line($this->margins['l'] + $width, $this->GetY(), $this->margins['l'] + $width + $width,
             $this->GetY());
 
-        
+
         $this->SetFont($this->font, '', 8);
         $this->SetTextColor(100, 100, 100);
         $this->Ln(7);
@@ -588,9 +588,6 @@ class InvoicePrinter extends FPDF
         $cellHeight  = 8;
         $bgcolor     = (1 - $this->columnOpacity) * 255;
 
-        $this->Ln(5);
-        $this->SetLineWidth(0.4);
-        $this->Line($this->margins['l'], $this->GetY(), $this->margins['l'] + $width, $this->GetY());
 
         //Add totals
         if ($this->totals) {
