@@ -245,7 +245,7 @@ class InvoicePrinter extends FPDF
         $this->flipflop = true;
     }
 
-    public function addItem($project_id, $project_address, $project_total, $project_supervisor, $item, $description = "", $total_quantity, $quantity, $quantity_ot, $price, $price_ot = 0, $total, $po_number = null)
+    public function addItem($project_id, $project_address, $project_supervisor, $project_total, $item, $description = "", $total_quantity, $quantity, $quantity_ot, $price, $price_ot = 0, $total, $po_number = null)
     {
         $p['item']        = $item;
         $p['description'] = is_array($description) ? $description : $this->br2nl($description);
