@@ -794,7 +794,7 @@ class InvoicePrinter extends FPDF
 //                    $this->SetTextColor(255, 255, 255);
 //                    $this->SetFillColor($this->color[0], $this->color[1], $this->color[2]);
 //                }
-                $this->Cell($width_other, $cellHeight, iconv('UTF-8', 'windows-1252', $section['total']), 0, 0, 'C', 1);
+                $this->Cell($width_other, $cellHeight, iconv('UTF-8', 'windows-1252', '$'.$section['total']), 0, 0, 'C', 1);
                 $this->Ln();
                 $this->Ln($this->columnSpacing);
 
