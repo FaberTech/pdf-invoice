@@ -245,7 +245,7 @@ class InvoicePrinter extends FPDF
         $this->flipflop = true;
     }
 
-    public function addItem($project_id, $project_address, $project_supervisor, $item, $description = "", $total_quantity, $quantity, $quantity_ot, $price, $price_ot = 0, $total, $po_number = null)
+    public function addItem($project_id, $project_address, $project_total, $project_supervisor, $item, $description = "", $total_quantity, $quantity, $quantity_ot, $price, $price_ot = 0, $total, $po_number = null)
     {
         $p['item']        = $item;
         $p['description'] = is_array($description) ? $description : $this->br2nl($description);
@@ -273,6 +273,7 @@ class InvoicePrinter extends FPDF
 
         if(!isset($this->sections[$project_id])){
             $this->sections[$project_id] = [];
+            $this->sections[$project_id]['total'] =  $project_total;
             $this->sections[$project_id]['address'] = $project_address;
             $this->sections[$project_id]['supervisor'] = $project_supervisor;
             $this->sections[$project_id]['po_number'] = $po_number;
