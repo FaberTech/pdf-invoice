@@ -652,7 +652,7 @@ class InvoicePrinter extends FPDF
 
                 foreach($section['items'] as $item) {
 
-
+                    $this->Ln(1);
                     $x = $this->GetX();
                     if ($item['description']) {
                         // Calculate table column width minus spacer (=2)
