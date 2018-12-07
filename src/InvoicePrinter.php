@@ -769,7 +769,41 @@ class InvoicePrinter extends FPDF
                     $this->Ln($this->columnSpacing);
                 }
 
+                // Section Total Add totals
+
+                $this->SetTextColor(50, 50, 50);
+                $this->SetFillColor($bgcolor, $bgcolor, $bgcolor);
+                $this->Cell(1 + $this->firstColumnWidth, $cellHeight, '', 0, 0, 'L', 0);
+                for ($i = 0; $i < $this->columns - 3; $i++) {
+                    $this->Cell($width_other, $cellHeight, '', 0, 0, 'L', 0);
+                    $this->Cell($this->columnSpacing, $cellHeight, '', 0, 0, 'L', 0);
+                }
+                $this->Cell($this->columnSpacing, $cellHeight, '', 0, 0, 'L', 0);
+//                if ($total['colored']) {
+//                    $this->SetTextColor(255, 255, 255);
+//                    $this->SetFillColor($this->color[0], $this->color[1], $this->color[2]);
+//                }
+                $this->SetFont($this->font, 'b', 8);
+                $this->Cell(1, $cellHeight, '', 0, 0, 'L', 1);
+                $this->Cell($width_other - 1, $cellHeight, iconv('UTF-8', 'windows-1252', 'Total'), 0, 0, 'L',
+                    1);
+                $this->Cell($this->columnSpacing, $cellHeight, '', 0, 0, 'L', 0);
+                $this->SetFont($this->font, 'b', 8);
+                $this->SetFillColor($bgcolor, $bgcolor, $bgcolor);
+//                if ($total['colored']) {
+//                    $this->SetTextColor(255, 255, 255);
+//                    $this->SetFillColor($this->color[0], $this->color[1], $this->color[2]);
+//                }
+                $this->Cell($width_other, $cellHeight, iconv('UTF-8', 'windows-1252', $section['total']), 0, 0, 'C', 1);
+                $this->Ln();
+                $this->Ln($this->columnSpacing);
+
+
+
+
+
             }
+
         }
         $badgeX = $this->getX();
         $badgeY = $this->getY();
