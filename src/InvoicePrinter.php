@@ -766,7 +766,7 @@ class InvoicePrinter extends FPDF
                         $this->currency . ' ' . number_format($item['total'], 2, $this->referenceformat[0],
                             $this->referenceformat[1])), 0, 0, 'C', 1);
                     $this->Ln();
-//                    $this->Ln($this->columnSpacing);
+                    $this->Ln($this->columnSpacing);
                 }
 
                 // Section Total Add totals
