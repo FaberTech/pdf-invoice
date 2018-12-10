@@ -507,15 +507,18 @@ class InvoicePrinter extends FPDF
 
         $title = $section['address'];
 
-        if ($section['po_number']){
-            $title = '#'. $section['po_number']. ' - '. $title;
-        }
         $this->Cell($width, $lineheight, $title, 0, 0, 'L');
         $this->SetFont($this->font, '', 8);
         $this->SetTextColor(100, 100, 100);
         $this->Ln(4);
         // project supervisor
         $this->Cell($width, $lineheight, iconv("UTF-8", "ISO-8859-1//TRANSLIT", 'Supervisor: '.$section['supervisor']), 0, 0, 'L');
+
+        if ($section['po_number']){
+            $this->Ln(4);
+            // project supervisor
+            $this->Cell($width, $lineheight, iconv("UTF-8", "ISO-8859-1//TRANSLIT", 'PO#: '.$section['po_number']), 0, 0, 'L');
+        }
         $this->Ln(6);
         $this->SetLineWidth(0.4);
         $this->SetDrawColor($this->color[0], $this->color[1], $this->color[2]);
