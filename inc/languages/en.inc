@@ -14,6 +14,7 @@
   $lang['price_ot'] 	= 'OT Rate';
   $lang['quantity_ot'] 	= 'OT Hrs';
   $lang['total'] 		= 'Total';
+  $lang['grand_total'] 	= 'Grand Total';
   $lang['page'] 		= 'Page';
   $lang['page_of'] 		= 'of';
 ?>
