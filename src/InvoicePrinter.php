@@ -245,9 +245,10 @@ class InvoicePrinter extends FPDF
         $this->flipflop = true;
     }
 
-    public function addItem($project_id, $project_name, $project_address, $project_supervisor, $project_total, $item, $description = "", $total_quantity, $quantity, $quantity_ot, $price, $price_ot = 0, $total, $po_number = null)
+    public function addItem($project_id, $project_name, $project_address, $project_supervisor, $project_total, $item, $description = "", $total_quantity, $quantity, $quantity_ot, $price, $price_ot = 0, $total, $po_number = null, $skills = [])
     {
         $p['item']        = $item;
+        $p['skills']      = $skills;
         $p['description'] = is_array($description) ? $description : $this->br2nl($description);
 
         if ($quantity_ot !== false) {
@@ -661,39 +662,6 @@ class InvoicePrinter extends FPDF
 
                     $this->Ln(1);
                     $x = $this->GetX();
-                    if ($item['description']) {
-                        // Calculate table column width minus spacer (=2)
-                        $colWidth = ($this->firstColumnWidth - 2) / count(max(1, $item['description'][0]));
-                        //Precalculate height
-                        $calculateHeight = new self;
-                        $calculateHeight->addPage();
-                        $calculateHeight->setXY(0, 0);
-                        if (!is_array($item['description'])) {
-                            $calculateHeight->SetFont($this->font, '', 7);
-                            $calculateHeight->MultiCell($this->firstColumnWidth, 3, iconv("UTF-8", "ISO-8859-1//TRANSLIT", $item['description']), 0, 'L', 1);
-                        } else {
-                            $calculateHeight->SetFont($this->font, '', 6);
-                            foreach ($item['description'] as $row) {
-                                foreach ($row as $idx => $col) {
-                                    // Make 3rd row longer when 3 cols
-                                    $colWidthMultiplier = 1;
-                                    if (count($row) == 3) {
-                                        $colWidthMultiplier = $idx == 2 ? 1.5 : 0.75;
-                                    }
-                                    $calculateHeight->Cell($colWidth * $colWidthMultiplier, 6, $col, 0, 0, null, true);
-                                }
-                                // Add spacer (=2) to left side of table
-                                $calculateHeight->Cell(2, 6, '', 0, 0, null, true);
-                                $calculateHeight->Ln();
-                                $calculateHeight->SetX($x);
-                            }
-                        }
-                        $descriptionHeight = $calculateHeight->getY() + $cellHeight + 2;
-                        $pageHeight = $this->document['h'] - $this->GetY() - $this->margins['t'] - $this->margins['t'];
-                        if ($pageHeight < 35) {
-                            $this->AddPage();
-                        }
-                    }
                     $cHeight = $cellHeight;
                     $this->SetFont($this->font, 'b', 8);
                     $this->SetTextColor(50, 50, 50);
@@ -702,30 +670,39 @@ class InvoicePrinter extends FPDF
                     $x = $this->GetX();
                     $this->Cell($this->firstColumnWidth, $cHeight, iconv("UTF-8", "ISO-8859-1//TRANSLIT", $item['item']), 0, 0, 'L',
                         1);
-                    if ($item['description']) {
+                    if ($item['description'] || $item['skills']) {
+                        $colWidth = ($this->firstColumnWidth - 2) / count(max(1, $item['description'][0]));
                         $resetX = $this->GetX();
                         $resetY = $this->GetY();
                         $this->SetTextColor(120, 120, 120);
                         $this->SetXY($x, $this->GetY() + 8);
-                        if (!is_array($item['description'])) {
-                            $this->SetFont($this->font, '', 7);
-                            $this->MultiCell($this->firstColumnWidth, 3, iconv("UTF-8", "ISO-8859-1//TRANSLIT", $item['description']), 0, 'L', 1);
-                        } else {
+                        if($item['skills'] && count($item['skills'])) {
                             $this->SetFont($this->font, '', 6);
-                            // Data
-                            foreach ($item['description'] as $row) {
-                                foreach ($row as $idx => $col) {
-                                    // Make 3rd row longer when 3 cols
-                                    $colWidthMultiplier = 1;
-                                    if (count($row) == 3) {
-                                        $colWidthMultiplier = $idx == 2 ? 1.5 : 0.75;
+                            $skills_string = implode(', ', array_map(function($el){ return $el['description']; }, $item['skills']));
+                            $this->MultiCell($this->firstColumnWidth, 3, "Performed Skills:\n".$skills_string, 0, 'L', 1);
+                            $this->SetX($x);
+                        }
+                        if($item['description']) {
+                            if (!is_array($item['description'])) {
+                                $this->SetFont($this->font, '', 7);
+                                $this->MultiCell($this->firstColumnWidth, 3, iconv("UTF-8", "ISO-8859-1//TRANSLIT", $item['description']), 0, 'L', 1);
+                            } else {
+                                $this->SetFont($this->font, '', 6);
+                                // Data
+                                foreach ($item['description'] as $row) {
+                                    foreach ($row as $idx => $col) {
+                                        // Make 3rd row longer when 3 cols
+                                        $colWidthMultiplier = 1;
+                                        if (count($row) == 3) {
+                                            $colWidthMultiplier = $idx == 2 ? 1.5 : 0.75;
+                                        }
+                                        $this->Cell($colWidth * $colWidthMultiplier, 6, $col, 0, 0, null, true);
                                     }
-                                    $this->Cell($colWidth * $colWidthMultiplier, 6, $col, 0, 0, null, true);
+                                    // Add spacer (=2) to left side of table
+                                    $this->Cell(2, 6, '', 0, 0, null, true);
+                                    $this->Ln();
+                                    $this->SetX($x);
                                 }
-                                // Add spacer (=2) to left side of table
-                                $this->Cell(2, 6, '', 0, 0, null, true);
-                                $this->Ln();
-                                $this->SetX($x);
                             }
                         }
                         //Calculate Height
