@@ -679,7 +679,7 @@ class InvoicePrinter extends FPDF
                         if($item['skills'] && count($item['skills'])) {
                             $this->SetFont($this->font, '', 6);
                             $skills_string = implode(', ', array_map(function($el){ return $el['description']; }, $item['skills']));
-                            $this->MultiCell($this->firstColumnWidth, 3, "Performed Skills:\n".$skills_string, 0, 'L', 1);
+                            $this->MultiCell($this->firstColumnWidth, 3, "Performed Tasks:\n".$skills_string, 0, 'L', 1);
                             $this->SetX($x);
                         }
                         if($item['description']) {
