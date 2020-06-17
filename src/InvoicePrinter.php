@@ -666,7 +666,6 @@ class InvoicePrinter extends FPDF
                     $this->SetFont($this->font, 'b', 8);
                     $this->SetTextColor(50, 50, 50);
                     $this->SetFillColor($bgcolor, $bgcolor, $bgcolor);
-                    info($item['item']);
 
                     $skill_height_estimate = 0;
                     if($item['skills'] ){
