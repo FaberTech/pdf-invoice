@@ -666,16 +666,41 @@ class InvoicePrinter extends FPDF
                     $this->SetFont($this->font, 'b', 8);
                     $this->SetTextColor(50, 50, 50);
                     $this->SetFillColor($bgcolor, $bgcolor, $bgcolor);
+
+                    $skill_height_estimate = 0;
+                    if($item['skills'] ){
+                        $skill_count = count($item['skills']);
+                        $skill_line_estimate = ceil($skill_count/3);
+                        $skill_height_estimate = $skill_line_estimate * 3 + 2; // 2 = spacer
+                    }
+
+                    $description_height = 0;
+                    if($item['description']){
+                        $description_item_count = count($item['description']);
+                        $description_height = $description_item_count * 6;
+                        $spacer_height = $description_item_count * 2; // 2 = spacer
+                        $description_height = $description_height + $description_height;
+
+                    }
+
+                    $height = $description_height + $skill_height_estimate;
+                    $room_left = $this->GetPageHeight() - $this->GetY();
+
+                    if($height >= $room_left){
+                        $this->AddPage();
+                    }
+
                     $this->Cell(1, $cHeight, '', 0, 0, 'L', 1);
                     $x = $this->GetX();
-                    $this->Cell($this->firstColumnWidth, $cHeight, iconv("UTF-8", "ISO-8859-1//TRANSLIT", $item['item']), 0, 0, 'L',
-                        1);
+                    $this->Cell($this->firstColumnWidth, $cHeight, iconv("UTF-8", "ISO-8859-1//TRANSLIT", $item['item']), 0, 0, 'L', 1);
                     if ($item['description'] || $item['skills']) {
                         $colWidth = ($this->firstColumnWidth - 2) / count(max(1, $item['description'][0]));
                         $resetX = $this->GetX();
                         $resetY = $this->GetY();
                         $this->SetTextColor(120, 120, 120);
                         $this->SetXY($x, $this->GetY() + 8);
+
+
                         if($item['skills'] && count($item['skills'])) {
                             $this->SetFont($this->font, '', 6);
                             $skills_string = implode(', ', array_map(function($el){ return $el['description']; }, $item['skills']));
@@ -716,6 +741,8 @@ class InvoicePrinter extends FPDF
                         $this->Cell($this->firstColumnWidth, 2, '', 0, 0, 'L', 1);
                         $this->SetXY($resetX, $resetY);
                     }
+
+
                     $this->SetTextColor(50, 50, 50);
                     $this->SetFont($this->font, '', 8);
                     $this->Cell($this->columnSpacing, $cHeight, '', 0, 0, 'L', 0);
