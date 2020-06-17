@@ -666,6 +666,7 @@ class InvoicePrinter extends FPDF
                     $this->SetFont($this->font, 'b', 8);
                     $this->SetTextColor(50, 50, 50);
                     $this->SetFillColor($bgcolor, $bgcolor, $bgcolor);
+                    info($item['item']);
 
                     $skill_height_estimate = 0;
                     if($item['skills'] ){
@@ -677,9 +678,9 @@ class InvoicePrinter extends FPDF
                     $description_height = 0;
                     if($item['description']){
                         $description_item_count = count($item['description']);
-                        $description_height = $description_item_count * 6;
+                        $description_height = $description_item_count * 12;
                         $spacer_height = $description_item_count * 2; // 2 = spacer
-                        $description_height = $description_height + $description_height;
+                        $description_height = $description_height + $spacer_height;
 
                     }
 
