@@ -679,11 +679,11 @@ class InvoicePrinter extends FPDF
                         $description_item_count = count($item['description']);
                         $description_height = $description_item_count * 12;
                         $spacer_height = $description_item_count * 2; // 2 = spacer
-                        $description_height = $description_height + $spacer_height + 20;
+                        $description_height = $description_height + $spacer_height;
 
                     }
 
-                    $height = $description_height + $skill_height_estimate;
+                    $height = $description_height + $skill_height_estimate + 20;
                     $room_left = $this->GetPageHeight() - $this->GetY();
 
                     if($height >= $room_left){
