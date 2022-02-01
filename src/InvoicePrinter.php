@@ -258,7 +258,7 @@ class InvoicePrinter extends FPDF
     {
         $p['item']        = ASCII::to_ascii($item);
         $p['skills']      = $skills;
-        $p['description'] = ASCII::to_ascii(is_array($description) ? $description : $this->br2nl($description));
+        $p['description'] = is_array($description) ? $description : $this->br2nl($description);
 
         if ($quantity_ot !== false) {
             $p['quantity_ot'] = $quantity_ot;
