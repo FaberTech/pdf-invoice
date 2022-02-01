@@ -12,6 +12,7 @@
 namespace FaberTech\PdfInvoice;
 
 use FPDF;
+use voku\helper\ASCII;
 
 class InvoicePrinter extends FPDF
 {
@@ -217,11 +218,19 @@ class InvoicePrinter extends FPDF
 
     public function setFrom($data)
     {
+        foreach($data as $i => $item){
+            $data[$i] = ASCII::to_ascii($item);
+        }
+
         $this->from = $data;
     }
 
     public function setTo($data)
     {
+        foreach($data as $i => $item){
+            $data[$i] = ASCII::to_ascii($item);
+        }
+
         $this->to = $data;
     }
 
@@ -247,9 +256,9 @@ class InvoicePrinter extends FPDF
 
     public function addItem($project_id, $project_name, $project_address, $project_supervisor, $project_total, $item, $description = "", $total_quantity, $quantity, $quantity_ot, $price, $price_ot = 0, $total, $po_number = null, $skills = [])
     {
-        $p['item']        = $item;
+        $p['item']        = ASCII::to_ascii($item);
         $p['skills']      = $skills;
-        $p['description'] = is_array($description) ? $description : $this->br2nl($description);
+        $p['description'] = ASCII::to_ascii(is_array($description) ? $description : $this->br2nl($description));
 
         if ($quantity_ot !== false) {
             $p['quantity_ot'] = $quantity_ot;
@@ -275,9 +284,9 @@ class InvoicePrinter extends FPDF
         if(!isset($this->sections[$project_id])){
             $this->sections[$project_id] = [];
             $this->sections[$project_id]['total'] =  $project_total;
-            $this->sections[$project_id]['name'] = $project_name;
-            $this->sections[$project_id]['address'] = $project_address;
-            $this->sections[$project_id]['supervisor'] = $project_supervisor;
+            $this->sections[$project_id]['name'] = ASCII::to_ascii($project_name);
+            $this->sections[$project_id]['address'] = ASCII::to_ascii($project_address);
+            $this->sections[$project_id]['supervisor'] = ASCII::to_ascii($project_supervisor);
             $this->sections[$project_id]['po_number'] = $po_number;
             $this->sections[$project_id]['items'] = [];
         }
@@ -315,7 +324,7 @@ class InvoicePrinter extends FPDF
 
     public function setFooternote($note)
     {
-        $this->footernote = $note;
+        $this->footernote = ASCII::to_ascii($note);
     }
 
     public function render($name = '', $destination = '')
