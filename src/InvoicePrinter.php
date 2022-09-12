@@ -38,6 +38,8 @@ class InvoicePrinter extends FPDF
     public $date;
     public $time;
     public $due;
+    public $paymentDate;
+    public $paymentMethod;
     public $start_date;
     public $end_date;
     public $address;
@@ -188,6 +190,16 @@ class InvoicePrinter extends FPDF
     public function setDue($date)
     {
         $this->due = $date;
+    }
+
+    public function  setPaymentDate($date)
+    {
+        $this->paymentDate = $date;
+    }
+
+    public function setPaymentMethod($method)
+    {
+        $this->paymentMethod = $method;
     }
 
     public function setPeriod($start_date, $end_date)
@@ -433,6 +445,16 @@ class InvoicePrinter extends FPDF
                 $this->SetFont($this->font, '', 9);
                 $this->Cell(0, $lineheight, $this->due, 0, 1, 'R');
             }
+            //Payment date
+            if (!empty($this->paymentDate)) {
+                $this->Cell($positionX, $lineheight);
+                $this->SetFont($this->font, 'B', 9);
+                $this->SetTextColor($this->color[0], $this->color[1], $this->color[2]);
+                $this->Cell(47, $lineheight, iconv("UTF-8", "ISO-8859-1", mb_strtoupper($this->lang['payment_date'], 'UTF-8')) . ':', 0, 0, 'L');
+                $this->SetTextColor(50, 50, 50);
+                $this->SetFont($this->font, '', 9);
+                $this->Cell(0, $lineheight, $this->paymentDate, 0, 1, 'R');
+            }
             //Period
             if (!empty($this->start_date) && !empty($this->end_date)) {
                 $this->Cell($positionX, $lineheight);
@@ -443,7 +465,16 @@ class InvoicePrinter extends FPDF
                 $this->SetFont($this->font, '', 9);
                 $this->Cell(0, $lineheight, $this->start_date . ' - '. $this->end_date, 0, 1, 'R');
             }
-
+            //Payment Method
+            if (!empty($this->paymentMethod)) {
+                $this->Cell($positionX, $lineheight);
+                $this->SetFont($this->font, 'B', 9);
+                $this->SetTextColor($this->color[0], $this->color[1], $this->color[2]);
+                $this->Cell(47, $lineheight, iconv("UTF-8", "ISO-8859-1", mb_strtoupper($this->lang['payment_method'], 'UTF-8')) . ':', 0, 0, 'L');
+                $this->SetTextColor(50, 50, 50);
+                $this->SetFont($this->font, '', 9);
+                $this->Cell(0, $lineheight, $this->paymentMethod, 0, 1, 'R');
+            }
 
             if (($this->margins['t'] + $this->dimensions[1]) > $this->GetY()) {
                 $this->SetY($this->margins['t'] + $this->dimensions[1] + 5);
